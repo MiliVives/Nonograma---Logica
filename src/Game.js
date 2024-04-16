@@ -12,6 +12,7 @@ function Game() {
   const [rowsClues, setRowsClues] = useState(null);
   const [colsClues, setColsClues] = useState(null);
   const [waiting, setWaiting] = useState(false);
+  const [activeButton, setActiveButton] = useState('button1'); 
 
   useEffect(() => {
 
@@ -63,6 +64,7 @@ function Game() {
   function handleButtonClick(buttonId) {
     console.log(`Button ${buttonId} clicked`);
     content = buttonId === 'button1' ? 'X' : '#';
+    setActiveButton(buttonId);
   }  
 
   if (!grid) {
@@ -78,8 +80,8 @@ function Game() {
         onClick={(i, j) => handleClick(i, j)}
       />
       <div className="buttons">
-      <button className="button" onClick={() => handleButtonClick('button1')}>X</button>
-      <button className="button" onClick={() => handleButtonClick('button2')}>#</button>
+      <button className={`button ${activeButton === 'button1' ? 'active' : ''}`} onClick={() => handleButtonClick('button1')}>X</button>
+      <button className={`button ${activeButton === 'button2' ? 'active' : ''}`} onClick={() => handleButtonClick('button2')}>#</button>
     </div>
     </div>
   );

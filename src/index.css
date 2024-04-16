@@ -96,6 +96,7 @@ body {
   border-radius: 8px;
   font-weight: bold;
   font-size: 25px;
+  transition: background-color 0.3s ease;
 }
 
 .button:hover {
@@ -110,4 +111,18 @@ body {
   outline: none; 
   box-shadow: 0 0 10px #ffffff; 
   background-color: #d7ce57df;
+}
+
+.buttons button.active {
+  background-color: #d7ce57df; 
+}
+
+.buttons button:hover {
+  background-color: #d7ce57df; 
+}
+
+.buttons button:focus {
+  outline: none; 
+  box-shadow: 0 0 10px #ffffff; 
+  background-color: #d7ce57df; 
 }
