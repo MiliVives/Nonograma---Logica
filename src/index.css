@@ -68,9 +68,46 @@ body {
 
 .game {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  text-align: center; /* Center text horizontally */
 }
 
 .game-info {
   margin-left: 20px;
+}
+
+.board-container {
+  margin-bottom: 20px; /* Add some space between the board and buttons */
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row; /* Arrange buttons vertically */
+  align-items: center; /* Center buttons horizontally */
+}
+
+.buttons button {
+  margin: 20px; /* Add some space between the buttons */
+  margin-left: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.button:hover {
+  background-color: #d7ce57df;
+}
+
+.button:active {
+  background-color: #d7ce57df;
+}
+
+.button:focus {
+  outline: none; 
+  box-shadow: 0 0 10px #ffffff; 
+  background-color: #d7ce57df;
 }
