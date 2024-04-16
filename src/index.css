@@ -1,0 +1,76 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  height: 100vh; 
+  background-image: url('./background1.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.square {
+  background: #ffffffa0;
+  border: 2px solid #e2da5b;
+  font-size: 24px;
+  font-weight: bold;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+}
+
+.board {
+  display: grid;
+}
+
+.horizontal {
+  display: flex;
+}
+
+.vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.rowClues {
+  display: grid;
+}
+
+.colClues {
+  display: grid;
+}
+
+.clue {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #d7ce57df;
+  border-radius: 8px;
+  margin: 5px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.clue div {
+  margin: 2px
+}
+
+.colClues .clue {
+  flex-direction: column;
+}
+
+.game {
+  display: flex;
+  flex-direction: row;
+}
+
+.game-info {
+  margin-left: 20px;
+}
