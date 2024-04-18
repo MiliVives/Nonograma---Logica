@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PengineClient from './PengineClient';
 import Board from './Board';
+import Square from './Square'; 
+export const imageMapping = {
+  'X': './clave.png',
+  '#': './bateria.png',
+};
 
 let pengine;
 let content = 'X';
@@ -9,8 +14,8 @@ function Game() {
 
   // State
   const [grid, setGrid] = useState(null);
-  const [rowsClues, setRowsClues] = useState(null);
-  const [colsClues, setColsClues] = useState(null);
+  const [rowsClues, setRowsClues] = useState([]);
+  const [colsClues, setColsClues] = useState([]);
   const [waiting, setWaiting] = useState(false);
   const [activeButton, setActiveButton] = useState('button1'); 
   const [gameEnded, setGameEnded] = useState(false);
@@ -19,9 +24,6 @@ function Game() {
 
   useEffect(() => {
 
-    // Creation of the pengine server instance.    
-    // This is executed just once, after the first render.    
-    // The callback will run when the server is ready, and it stores the pengine instance in the pengine variable. 
     PengineClient.init(handleServerReady);
   }, []);
 
@@ -50,7 +52,7 @@ function Game() {
             // Checkea todas las pistas para saber si alguna está completa
             // checkearTodas([["X",_,_,_,_],["X",_,"X",_,_],["X",_,_,_,_],["#","#","#",_,_],[_,_,"#","#","#"]], 
             //                  [[3], [1, 2], [4], [5], [5]], FilaSatL, 5, [[2], [5], [1,3], [5], [4]], ColSatL, 5)
-            const squaresS = JSON.stringify(grid).replaceAll('"_"', "_"); // Remove quotes for variables.
+            const squaresS = JSON.stringify(grid).replaceAll('"_"', "_"); 
             const filaS = JSON.stringify(rowsClues);
             const colS = JSON.stringify(colsClues);
             queryS = 'checkearTodos(' + squaresS + ', ' + filaS + ', FilaSatL, '
