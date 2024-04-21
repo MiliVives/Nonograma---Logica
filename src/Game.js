@@ -50,12 +50,11 @@ function Game() {
             setColsClues(response['PistasColumns']);
 
             // Checkea todas las pistas para saber si alguna está completa
-            // checkearTodas([["X",_,_,_,_],["X",_,"X",_,_],["X",_,_,_,_],["#","#","#",_,_],[_,_,"#","#","#"]], 
-            //                  [[3], [1, 2], [4], [5], [5]], FilaSatL, 5, [[2], [5], [1,3], [5], [4]], ColSatL, 5)
+            // 
             const squaresS = JSON.stringify(grid).replaceAll('"_"', "_"); 
             const filaS = JSON.stringify(rowsClues);
             const colS = JSON.stringify(colsClues);
-            queryS = 'checkearTodos(' + squaresS + ', ' + filaS + ', FilaSatL, '
+            queryS = 'checkAll(' + squaresS + ', ' + filaS + ', FilaSatL, '
                 + rowsClues.length + ', ' + colS + ', ColSatL, ' + colsClues.length + ')';
 
             pengine.query(queryS, (success, response) => {
