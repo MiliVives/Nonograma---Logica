@@ -106,21 +106,26 @@ function Game() {
   
   // Renderización normal del juego si no ha terminado
   return (
-      <div className="game">
+    <div className="game">
       {/* Your grid rendering logic here... */}
-      {(!colColor.includes(0) && !rowColor.includes(0) && colColor[0] != null) && <div className="game-ended">Game Over! You Won!</div>}
-      <Board
-        grid={grid}
-        rowsClues={rowsClues}
-        colsClues={colsClues}
-        onClick={(i, j) => handleClick(i, j)}
-      />
-      <div className="buttons">
-        <button className={`button ${activeButton === 'button1' ? 'active' : ''}`} onClick={() => handleButtonClick('button1')}>X</button>
-        <button className={`button ${activeButton === 'button2' ? 'active' : ''}`} onClick={() => handleButtonClick('button2')}>#</button>
-      </div>
+      {(!colColor.includes(0) && !rowColor.includes(0) && colColor[0] != null) ? (
+        <div className="game-ended">Game Over! You Won!</div>
+      ) : (
+        <>
+          <Board
+            grid={grid}
+            rowsClues={rowsClues}
+            colsClues={colsClues}
+            onClick={(i, j) => handleClick(i, j)}
+          />
+          <div className="buttons">
+            <button className={`button ${activeButton === 'button1' ? 'active' : ''}`} onClick={() => handleButtonClick('button1')}>X</button>
+            <button className={`button ${activeButton === 'button2' ? 'active' : ''}`} onClick={() => handleButtonClick('button2')}>#</button>
+          </div>
+        </>
+      )}
     </div>
   );
-}
+}  
 export default Game;
 
