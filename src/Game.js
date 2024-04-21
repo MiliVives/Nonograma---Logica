@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PengineClient from './PengineClient';
 import Board from './Board';
-import Square from './Square'; 
 export const imageMapping = {
   'X': './clave.png',
   '#': './bateria.png',
@@ -12,11 +11,10 @@ let content = 'X';
 
 function Game() {
 
-  // State
   const [grid, setGrid] = useState(null);
   const [rowsClues, setRowsClues] = useState([]);
   const [colsClues, setColsClues] = useState([]);
-  const [waiting, setWaiting] = useState(false);
+ // const [waiting, setWaiting] = useState(false);
   const [activeButton, setActiveButton] = useState('button1'); 
   const [gameEnded, setGameEnded] = useState(false);
   const [rowColor, setRowColor] = useState([]);
@@ -25,9 +23,11 @@ function Game() {
   useEffect(() => {
 
     PengineClient.init(handleServerReady);
+    // eslint-disable-next-line
   }, []);
 
   function handleServerReady(instance) {
+    console.log("Comienza El programa!");
     pengine = instance;
     const queryS = 'init(RowClues, ColumClues, Grid)';
     pengine.query(queryS, (success, response) => {
@@ -69,46 +69,29 @@ function Game() {
 }
 
 
+   function handleClick(i, j) {
 
-
-  function handleClick(i, j) {
-    // No action on click if we are waiting.
-    if (waiting) {
-      return;
-    }
-  let newContent;
-  if (grid[i][j] === '#') {
-    newContent = '_'; // If the square contains '#', set the new content to '_'
-  } else {
-    newContent = content; // Otherwise, use the current content
-  }
     // Build Prolog query to make a move and get the new satisfacion status of the relevant clues.    
     const squaresS = JSON.stringify(grid).replaceAll('"_"', '_'); //Remove quotes for variables. squares = [["X",_,_,_,_],["X",_,"X",_,_],["X",_,_,_,_],["#","#","#",_,_],[_,_,"#","#","#"]]
-    const rowsCluesS = JSON.stringify(rowsClues);
+    const rowsCluesS = JSON.stringify(rowsClues); 
     const colsCluesS = JSON.stringify(colsClues);
     const queryS = `put("${content}", [${i},${j}], ${rowsCluesS}, ${colsCluesS}, ${squaresS}, ResGrid, RowSat, ColSat)`; // queryS = put("#",[0,1],[], [],[["X",_,_,_,_],["X",_,"X",_,_],["X",_,_,_,_],["#","#","#",_,_],[_,_,"#","#","#"]], GrillaRes, FilaSat, ColSat)
-    setWaiting(true);
+
     pengine.query(queryS, (success, response) => {
        if (success) {
         const rowColorAux = rowColor.slice();
         const colColorAux = colColor.slice();
-        rowColorAux[i] = response['FilaSat'];
+        rowColorAux[i] = response['RowSat'];
         colColorAux[j] = response['ColSat'];
             setGrid(response['ResGrid']);
             setRowColor(rowColorAux);
             setColColor(colColorAux);
-            setWaiting(false);
-            checkGameEnd();
       }
-    else {
-        setWaiting(false);
-      }}
-  );}
+    }
+  );
+}
 
-  function checkGameEnd() {
-    const isCompleted = (!colColor.includes(0) && !rowColor.includes(0) && colColor[0] != null);
-    setGameEnded(isCompleted);
-  }
+
 
   function handleButtonClick(buttonId) {
     console.log(`Button ${buttonId} clicked`);
@@ -120,17 +103,12 @@ function Game() {
     return null;
   }
 
-  if (gameEnded) {
-    return (
-      <div className="game">
-        <div className="game-ended">Game Over! You Won!</div>
-      </div>
-    );
-  }
   
   // Renderización normal del juego si no ha terminado
   return (
-    <div className="game">
+      <div className="game">
+      {/* Your grid rendering logic here... */}
+      {(!colColor.includes(0) && !rowColor.includes(0) && colColor[0] != null) && <div className="game-ended">Game Over! You Won!</div>}
       <Board
         grid={grid}
         rowsClues={rowsClues}
@@ -145,5 +123,4 @@ function Game() {
   );
 }
 export default Game;
-
 
