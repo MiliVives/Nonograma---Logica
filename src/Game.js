@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PengineClient from './PengineClient';
 import Board from './Board';
+import Clue from './Clue';
+
 export const imageMapping = {
   'X': './clave.png',
   '#': './bateria.png',
@@ -14,7 +16,6 @@ function Game() {
   const [grid, setGrid] = useState(null);
   const [rowsClues, setRowsClues] = useState([]);
   const [colsClues, setColsClues] = useState([]);
- // const [waiting, setWaiting] = useState(false);
   const [activeButton, setActiveButton] = useState('button1'); 
   const [gameEnded, setGameEnded] = useState(false);
   const [rowColor, setRowColor] = useState([]);
@@ -108,19 +109,23 @@ function Game() {
     <div className="game">
       {/* Your grid rendering logic here... */}
       {(!colColor.includes(0) && !rowColor.includes(0) && colColor[0] != null) ? (
-        <div className="game-ended">Game Over! You Won!</div>
+      <div className="game-ended">Game Over! You Won!</div>
       ) : (
         <>
           <Board
             grid={grid}
             rowsClues={rowsClues}
             colsClues={colsClues}
+            colColor={colColor}
+            rowColor={rowColor}
             onClick={(i, j) => handleClick(i, j)}
           />
           <div className="buttons">
             <button className={`button ${activeButton === 'button1' ? 'active' : ''}`} onClick={() => handleButtonClick('button1')}>X</button>
             <button className={`button ${activeButton === 'button2' ? 'active' : ''}`} onClick={() => handleButtonClick('button2')}>#</button>
           </div>
+          
+
         </>
       )}
     </div>

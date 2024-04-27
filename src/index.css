@@ -63,13 +63,33 @@ body {
   font-size: 20px;
 }
 
+.clueCompleted {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f0e774;
+  border-radius: 8px;
+  margin: 5px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
 .clue div {
+  margin: 2px
+}
+
+.clueCompleted div {
   margin: 2px
 }
 
 .colClues .clue {
   flex-direction: column;
 }
+
+.colClues .clueCompleted {
+  flex-direction: column;
+}
+
 
 .game {
   display: flex;
@@ -130,4 +150,31 @@ body {
   outline: none; 
   box-shadow: 0 0 10px #ffffff; 
   background-color: #d7ce57df; 
+}
+
+.square {
+  background: rgba(255, 255, 255, 0.233);
+  border: 1px solid rgba(126, 150, 236, 0.61);
+  font-size: 24px;
+  font-weight: bold;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+}
+
+.square.bloque {
+  border: 1px solid rgba(126, 150, 236, 0.61);
+  background-image: url(bateria.png);
+  background-size: cover;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.square.cruz {
+  border: 1px solid rgba(126, 150, 236, 0.61);
+  background-image: url(clave.png);
+  background-size: cover;
+  -webkit-transition: .4s;
+  transition: .4s;
 }

@@ -1,9 +1,26 @@
 import React from 'react';
 
-function Square({ value, onClick }) {
+function Square(props) {
+    const pintar = () => {
+        let toReturn;
+
+        switch(props.value) {
+            case '_':
+                toReturn = "square";
+                break;
+            case '#':
+                toReturn = "square bloque";
+                break;
+            case 'X':
+                toReturn = "square cruz";
+                break;
+        }
+
+        return toReturn;
+    };
+
     return (
-        <button className="square" onClick={onClick} style={{ color: value === 'X' ? 'red' : 'blue' }}>
-            {value !== '_' ? value : null}
+        <button className={pintar()} onClick={props.onClick}>
         </button>
     );
 }
