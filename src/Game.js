@@ -11,6 +11,11 @@ export const imageMapping = {
 let pengine;
 let content = 'X';
 
+// Define a function to solve the entire grid
+function solveGrid() {
+  // Call the Prolog solver to find the solution for the entire grid
+}
+
 function Game() {
 
   const [grid, setGrid] = useState(null);
@@ -20,6 +25,8 @@ function Game() {
   const [gameEnded, setGameEnded] = useState(false);
   const [rowColor, setRowColor] = useState([]);
   const [colColor, setColColor] = useState([]);
+  const [solvedGrid, setSolvedGrid] = useState(null);
+
 
   useEffect(() => {
 
@@ -41,6 +48,20 @@ function Game() {
     });
   }
 
+  function handleSolveGrid() {
+    const solution = solveGrid(); 
+    setSolvedGrid(solution); 
+}
+
+   // Revelo el caracter correcto de la celda seleccionada
+   function revealCorrectCharacter(i, j) {
+    if (solvedGrid && grid[i][j] === '_') {
+        const correctCharacter = solvedGrid[i][j];
+        const newGrid = [...grid];
+        newGrid[i][j] = correctCharacter;
+        setGrid(newGrid); 
+    }
+}
 
   function loadGrid(n) {
     let queryS = 'init( PistasFilas, PistasColumns, Grilla)';
@@ -92,7 +113,6 @@ function Game() {
 }
 
 
-
   function handleButtonClick(buttonId) {
     console.log(`Button ${buttonId} clicked`);
     content = buttonId === 'button1' ? 'X' : '#';
@@ -123,6 +143,8 @@ function Game() {
           <div className="buttons">
             <button className={`button ${activeButton === 'button1' ? 'active' : ''}`} onClick={() => handleButtonClick('button1')}>X</button>
             <button className={`button ${activeButton === 'button2' ? 'active' : ''}`} onClick={() => handleButtonClick('button2')}>#</button>
+            <button className="button" onClick={() => handleButtonClick('button3')}>Solve</button>
+
           </div>
           
 
