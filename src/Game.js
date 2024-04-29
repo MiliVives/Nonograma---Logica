@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PengineClient from './PengineClient';
 import Board from './Board';
 import Clue from './Clue';
+import gameWonImage from './End.png'; // Importa la imagen
 
 export const imageMapping = {
   'X': './clave.png',
@@ -124,12 +125,12 @@ function Game() {
   }
 
   
-  // Renderización normal del juego si no ha terminado
   return (
     <div className="game">
       {/* Your grid rendering logic here... */}
       {(!colColor.includes(0) && !rowColor.includes(0) && colColor[0] != null) ? (
-      <div className="game-ended">Game Over! You Won!</div>
+   //   <div className="game-ended">Game Over! You Won!</div>
+      <img src={gameWonImage} alt="You won!" /> // Muestra la imagen cuando el juego termina
       ) : (
         <>
           <Board
