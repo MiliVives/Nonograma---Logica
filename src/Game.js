@@ -117,6 +117,13 @@ function Game() {
     setActiveButton(buttonId);
   }  
 
+  function handleSwitchButtonClick() {
+    console.log('Switch button clicked');
+    const newButtonId = activeButton === 'button1' ? 'button2' : 'button1';
+    content = newButtonId === 'button1' ? 'X' : '#';
+    setActiveButton(newButtonId);
+  }
+
   if (!grid) {
     return null;
   }
@@ -126,8 +133,8 @@ function Game() {
     <div className="game">
       {/* Your grid rendering logic here... */}
       {(!colColor.includes(0) && !rowColor.includes(0) && colColor[0] != null) ? (
-   //   <div className="game-ended">Game Over! You Won!</div>
-      <img src={gameWonImage} alt="You won!" /> // Muestra la imagen cuando el juego termina
+        // <div className="game-ended">Game Over! You Won!</div>
+        <img src={gameWonImage} alt="You won!" /> // Muestra la imagen cuando el juego termina
       ) : (
         <>
           <Board
@@ -138,40 +145,49 @@ function Game() {
             rowColor={rowColor}
             onClick={(i, j) => handleClick(i, j)}
           />
-          <div className="buttons">
-          <button 
-            className={`button ${activeButton === 'button1' ? 'active' : ''}`} 
-            onClick={() => handleButtonClick('button1')}
-            style={{ width: '50px', height: '50px' }} // Cambiar el tamaño del botón
-          >
-            <img 
-              src={botonX} 
-              alt="Descripción de la imagen" 
-              style={{ height: '100%' }} // Cambiar el tamaño de la imagen al 100% del contenedor
-            />
-          </button>
-
-
-          <button 
-            className={`button ${activeButton === 'button2' ? 'active' : ''}`} 
-            onClick={() => handleButtonClick('button2')}
-            style={{ width: '50px', height: '50px' }} // Cambiar el tamaño del botón
-          >
-            <img 
-              src={botonY} 
-              alt="Descripción de la imagen" 
-              style={{ height: '100%' }} // Cambiar el tamaño de la imagen al 100% del contenedor
-            />
-          </button>
-            <button className="button" onClick={() => handleButtonClick('button3')}>Solve</button>
-
+          <div className="button-container">
+            {/* Your existing buttons */}
+            {/* Switch button */}
+            <label className="switch">
+              <input type="checkbox" className="switch__input" onChange={handleSwitchButtonClick} />
+              <span className="switch__icon"></span>
+            </label>
+            <div className="buttons">
+              {/* Switch button */}
+              <button 
+                className={`button ${activeButton === 'button1' ? 'active' : ''}`} 
+                onClick={() => handleButtonClick('button1')}
+                style={{ width: '50px', height: '50px' }}
+              >
+                <img 
+                  src={botonX} 
+                  alt="Descripción de la imagen" 
+                  style={{ height: '100%' }}
+                />
+              </button>
+  
+              <button 
+                className={`button ${activeButton === 'button2' ? 'active' : ''}`} 
+                onClick={() => handleButtonClick('button2')}
+                style={{ width: '50px', height: '50px' }}
+              >
+                <img 
+                  src={botonY} 
+                  alt="Descripción de la imagen" 
+                  style={{ height: '100%' }}
+                />
+              </button>
+  
+              {/* Button 3 */}
+              <button className="button" onClick={() => handleButtonClick('button3')}>Solve</button>
+            </div>
+            
+            {/* End of button container */}
           </div>
-          
-
         </>
       )}
     </div>
-  );
+  );  
 }  
 export default Game;
 
