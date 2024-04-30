@@ -10,8 +10,8 @@ function Board({ grid, rowsClues, colsClues,colColor,rowColor,onClick }) {
             <div
                 className="colClues"
                 style={{
-                    gridTemplateRows: '90px',
-                    gridTemplateColumns: `90px repeat(${numOfCols}, 70px)`
+                    gridTemplateRows: '70px',
+                    gridTemplateColumns: `71px repeat(${numOfCols}, 70px)`
                     /*
                        60px  40px 40px 40px 40px 40px 40px 40px   (gridTemplateColumns)
                       ______ ____ ____ ____ ____ ____ ____ ____
@@ -31,7 +31,7 @@ function Board({ grid, rowsClues, colsClues,colColor,rowColor,onClick }) {
                     className="rowClues"
                     style={{
                         gridTemplateRows: `repeat(${numOfRows}, 70px)`,
-                        gridTemplateColumns: '90px'
+                        gridTemplateColumns: '70px'
                         /* IDEM column clues above */
                     }}
                 >

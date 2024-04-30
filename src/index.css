@@ -10,13 +10,14 @@ body {
   justify-content: center; 
   align-items: center; 
   height: 100vh; 
-  background-image: url('./background1.jpg');
+  background-image: url('./background.png');
   background-size: cover;
   background-position: center;
 }
 
+
 .square {
-  background: #ffffffa0;
+  background: #1c1f2e;
   border: 2px solid #e2da5b;
   font-size: 24px;
   font-weight: bold;
@@ -50,6 +51,8 @@ body {
 
 .colClues {
   display: grid;
+  grid-template-rows: 60px;
+  grid-template-columns: 88px repeat(5, 71px);
 }
 
 .clue {
@@ -57,8 +60,10 @@ body {
   justify-content: center;
   align-items: center;
   background: #d7ce57df;
-  border-radius: 8px;
-  margin: 5px;
+  /*border-radius: 8px;*/
+  margin: 1px;
+  /*padding-left: 30px;*/
+  /*padding-right: 30px;*/
   font-weight: bold;
   font-size: 20px;
 }
@@ -68,18 +73,17 @@ body {
   justify-content: center;
   align-items: center;
   background: #f0e774;
-  border-radius: 8px;
-  margin: 5px;
+  margin: 1px;
   font-weight: bold;
   font-size: 20px;
 }
 
 .clue div {
-  margin: 2px
+  margin: 4px
 }
 
 .clueCompleted div {
-  margin: 2px
+  margin: 4px
 }
 
 .colClues .clue {
@@ -118,7 +122,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 8px;
+  border-radius: 0px;
   font-weight: bold;
   font-size: 25px;
   transition: background-color 0.3s ease;
@@ -126,20 +130,22 @@ body {
 
 .button:hover {
   background-color: #d7ce57df;
+  /*border: 2px;*/
 }
 
 .button:active {
-  background-color: #d7ce57df;
+    background-color: #d7ce57df; 
 }
 
 .button:focus {
   outline: none; 
-  box-shadow: 0 0 10px #ffffff; 
+/*  box-shadow: 0 0 10px #ffffff; */
   background-color: #d7ce57df;
 }
 
 .buttons button.active {
-  background-color: #d7ce57df; 
+/*  background-color: #d7ce57df; */ 
+   border: 2px solid #d7ce57df;
 }
 
 .buttons button:hover {
@@ -148,23 +154,12 @@ body {
 
 .buttons button:focus {
   outline: none; 
-  box-shadow: 0 0 10px #ffffff; 
-  background-color: #d7ce57df; 
-}
-
-.square {
-  background: rgba(255, 255, 255, 0.233);
-  border: 1px solid rgba(126, 150, 236, 0.61);
-  font-size: 24px;
-  font-weight: bold;
-  margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
-  text-align: center;
+ /* box-shadow: 0 0 10px #1c1f2e; */
+  /* background-color: #d7ce57df; */
 }
 
 .square.bloque {
-  border: 1px solid rgba(126, 150, 236, 0.61);
+  border: 1px solid rgb(32, 36, 47);
   background-image: url(bateria.png);
   background-size: cover;
   -webkit-transition: .4s;
@@ -172,7 +167,7 @@ body {
 }
 
 .square.cruz {
-  border: 1px solid rgba(126, 150, 236, 0.61);
+  border: 1px solid rgb(32, 36, 47);
   background-image: url(clave.png);
   background-size: cover;
   -webkit-transition: .4s;

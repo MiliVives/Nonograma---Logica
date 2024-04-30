@@ -3,11 +3,8 @@ import PengineClient from './PengineClient';
 import Board from './Board';
 import Clue from './Clue';
 import gameWonImage from './End.png'; // Importa la imagen
-
-export const imageMapping = {
-  'X': './clave.png',
-  '#': './bateria.png',
-};
+import botonX from './clave.png'; 
+import botonY from './bateria.png'; 
 
 let pengine;
 let content = 'X';
@@ -142,8 +139,30 @@ function Game() {
             onClick={(i, j) => handleClick(i, j)}
           />
           <div className="buttons">
-            <button className={`button ${activeButton === 'button1' ? 'active' : ''}`} onClick={() => handleButtonClick('button1')}>X</button>
-            <button className={`button ${activeButton === 'button2' ? 'active' : ''}`} onClick={() => handleButtonClick('button2')}>#</button>
+          <button 
+            className={`button ${activeButton === 'button1' ? 'active' : ''}`} 
+            onClick={() => handleButtonClick('button1')}
+            style={{ width: '50px', height: '50px' }} // Cambiar el tamaño del botón
+          >
+            <img 
+              src={botonX} 
+              alt="Descripción de la imagen" 
+              style={{ height: '100%' }} // Cambiar el tamaño de la imagen al 100% del contenedor
+            />
+          </button>
+
+
+          <button 
+            className={`button ${activeButton === 'button2' ? 'active' : ''}`} 
+            onClick={() => handleButtonClick('button2')}
+            style={{ width: '50px', height: '50px' }} // Cambiar el tamaño del botón
+          >
+            <img 
+              src={botonY} 
+              alt="Descripción de la imagen" 
+              style={{ height: '100%' }} // Cambiar el tamaño de la imagen al 100% del contenedor
+            />
+          </button>
             <button className="button" onClick={() => handleButtonClick('button3')}>Solve</button>
 
           </div>
