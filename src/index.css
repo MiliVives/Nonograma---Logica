@@ -10,11 +10,19 @@ body {
   justify-content: center; 
   align-items: center; 
   height: 100vh; 
-  background-image: url('./background.png');
-  background-size: cover;
-  background-position: center;
 }
 
+video {
+  position: fixed;
+  top: 53%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
 
 .square {
   background: #1c1f2e;
@@ -60,7 +68,7 @@ body {
   justify-content: center;
   align-items: center;
   background: #d7ce57df;
-  /*border-radius: 8px;*/
+  border-radius: 12px;
   margin: 1px;
   /*padding-left: 30px;*/
   /*padding-right: 30px;*/
