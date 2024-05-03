@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import PengineClient from './PengineClient';
 import Board from './Board';
 import Clue from './Clue';
-import gameWonImage from './End.png'; // Importa la imagen
+import gameWonVideo from './endGif.gif'; // Importa el video
 import botonX from './clave.png'; 
 import botonY from './bateria.png'; 
-import botonZ from './ojo.png'
+import botonZ from './closedEye.png'
+import botonZO from './openedEye.png'
 
 let pengine;
 let content = 'X';
@@ -22,6 +23,7 @@ function Game() {
   const [rowColor, setRowColor] = useState([]);
   const [colColor, setColColor] = useState([]);
   const [solvedGrid, setSolvedGrid] = useState(false);
+  const [button3Image, setButton3Image] = useState(botonZ); // Estado para la imagen del button3
 
   useEffect(() => {
 
@@ -113,39 +115,16 @@ function handleClick(i, j) {
         setColColor(colColorAux);
         setSolvedGrid(false);
         handleButtonClick(buttonHistorial);
+        setButton3Image(botonZ);
       }
     });
   }
 
-/*
-   function handleClick(i, j) {
-
-    // Build Prolog query to make a move and get the new satisfacion status of the relevant clues.    
-    const squaresS = JSON.stringify(grid).replaceAll('"_"', '_'); //Remove quotes for variables. squares = [["X",_,_,_,_],["X",_,"X",_,_],["X",_,_,_,_],["#","#","#",_,_],[_,_,"#","#","#"]]
-    const rowsCluesS = JSON.stringify(rowsClues); 
-    const colsCluesS = JSON.stringify(colsClues);
-    const queryS = `put("${content}", [${i},${j}], ${rowsCluesS}, ${colsCluesS}, ${squaresS}, ResGrid, RowSat, ColSat)`; // queryS = put("#",[0,1],[], [],[["X",_,_,_,_],["X",_,"X",_,_],["X",_,_,_,_],["#","#","#",_,_],[_,_,"#","#","#"]], GrillaRes, FilaSat, ColSat)
-
-    pengine.query(queryS, (success, response) => {
-       if (success) {
-        const rowColorAux = rowColor.slice();
-        const colColorAux = colColor.slice();
-        rowColorAux[i] = response['RowSat'];
-        colColorAux[j] = response['ColSat'];
-            setGrid(response['ResGrid']);
-            setRowColor(rowColorAux);
-            setColColor(colColorAux);
-      }
-    }
-  );
-}
-*/
   function handleButtonClick(buttonId) {
-    console.log(`Button ${buttonId} clicked`);
-
     // If the "Solve" button is clicked, solve the entire grid
     if (buttonId === 'button3') {
       solveGrid();
+      setButton3Image(botonZO);
   }
 
   // If the "X" or "#" button is clicked, set the content accordingly
@@ -166,8 +145,8 @@ function handleClick(i, j) {
       {/* Your grid rendering logic here... */}
       {(!colColor.includes(0) && !rowColor.includes(0) && colColor[0] != null) ? (
         // <div className="game-ended">Game Over! You Won!</div>
-        <img src={gameWonImage} alt="You won!" /> // Muestra la imagen cuando el juego termina
-      ) : (
+        <img src={gameWonVideo} alt="You won!" /> // Muestra la imagen cuando el juego termina
+      ) : (    
         <> 
           <Board
             grid={grid}
@@ -180,7 +159,7 @@ function handleClick(i, j) {
           <div className="button-container">
             {/* Your existing buttons */}
             <div className="buttons">
-              {/* Switch button */}
+              {/* Switch button */}                         
               <button 
                 className={`button ${activeButton === 'button1' ? 'active' : ''}`} 
                 onClick={() => handleButtonClick('button1')}
@@ -206,15 +185,17 @@ function handleClick(i, j) {
               </button>
   
               {/* Button 3 */}
-              <button className="button" onClick={() => handleButtonClick('button3')}
+              <circleButton className="button" onClick={() => handleButtonClick('button3')
+                
+              }
                 style={{ width: '50px', height: '50px' }}
               >
                 <img 
-                  src={botonZ} 
+                  src={button3Image} 
                   alt="Descripción de la imagen" 
                   style={{ height: '100%' }}
                 />
-              </button>
+              </circleButton>
             </div>
             {/* End of button container */}
           </div>

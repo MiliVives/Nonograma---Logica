@@ -136,6 +136,18 @@ video {
   transition: background-color 0.3s ease;
 }
 
+.buttons circleButton {
+  margin: 20px; 
+  margin-left: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  font-weight: bold;
+  font-size: 25px;
+  transition: background-color 0.3s ease;
+}
+
 .button:hover {
   background-color: #d7ce57df;
   /*border: 2px;*/
@@ -238,4 +250,6 @@ video {
   display: flex;
   flex-direction: row;
   align-items: center;
+  
 }
+
