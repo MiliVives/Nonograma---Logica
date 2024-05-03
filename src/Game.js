@@ -5,14 +5,12 @@ import Clue from './Clue';
 import gameWonImage from './End.png'; // Importa la imagen
 import botonX from './clave.png'; 
 import botonY from './bateria.png'; 
+import botonZ from './ojo.png'
 
 let pengine;
 let content = 'X';
-
+let buttonHistorial = 'X';
 // Define a function to solve the entire grid
-function solveGrid() {
-  // Call the Prolog solver to find the solution for the entire grid
-}
 
 function Game() {
 
@@ -23,8 +21,7 @@ function Game() {
   const [gameEnded, setGameEnded] = useState(false);
   const [rowColor, setRowColor] = useState([]);
   const [colColor, setColColor] = useState([]);
-  const [solvedGrid, setSolvedGrid] = useState(null);
-
+  const [solvedGrid, setSolvedGrid] = useState(false);
 
   useEffect(() => {
 
@@ -46,19 +43,19 @@ function Game() {
     });
   }
 
-  function handleSolveGrid() {
-    const solution = solveGrid(); 
-    setSolvedGrid(solution); 
-}
+  function solveGrid() {
+     // Build Prolog query to make a move and get the new satisfacion status of the relevant clues.    
 
-   // Revelo el caracter correcto de la celda seleccionada
-   function revealCorrectCharacter(i, j) {
-    if (solvedGrid && grid[i][j] === '_') {
-        const correctCharacter = solvedGrid[i][j];
-        const newGrid = [...grid];
-        newGrid[i][j] = correctCharacter;
-        setGrid(newGrid); 
-    }
+     console.log('Entré a solvedGrid');
+
+     const queryS = `go(ResGrid)`;
+
+     pengine.query(queryS, (success, response) => {
+        if (success) {
+          console.log('entre a succes de solvedGrid');
+          setSolvedGrid(response['ResGrid']);
+      }
+    });
 }
 
   function loadGrid(n) {
@@ -88,6 +85,39 @@ function Game() {
 }
 
 
+function handleClick(i, j) {
+  // Si solvedGrid está disponible y la celda está vacía en la cuadrícula actual, revelar el carácter correcto
+  if (solvedGrid && grid[i][j] === '_') {
+    console.log('Entre aqui');
+    let correctCharacter = solvedGrid[i][j];
+    const newGrid = [...grid]; // Make a copy of the grid state
+    console.log(correctCharacter); // 1 if it's painted and 0 if it's X
+    //newGrid[i][j] = correctCharacter === 1 ? '#' : 'X'; 
+   // setGrid(newGrid); // Actualiza el estado de la cuadrícula
+   content = correctCharacter === 1 ? '#' : 'X';
+  }
+    // Si solvedGrid no está disponible o la celda no está vacía, realiza la consulta al servidor para colocar el carácter
+    // Esto se hace de manera similar a como lo estás haciendo actualmente en esta función
+    const squaresS = JSON.stringify(grid).replaceAll('"_"', '_');
+    const rowsCluesS = JSON.stringify(rowsClues);
+    const colsCluesS = JSON.stringify(colsClues);
+    const queryS = `put("${content}", [${i},${j}], ${rowsCluesS}, ${colsCluesS}, ${squaresS}, ResGrid, RowSat, ColSat)`;
+    pengine.query(queryS, (success, response) => {
+      if (success) {
+        const rowColorAux = rowColor.slice();
+        const colColorAux = colColor.slice();
+        rowColorAux[i] = response['RowSat'];
+        colColorAux[j] = response['ColSat'];
+        setGrid(response['ResGrid']);
+        setRowColor(rowColorAux);
+        setColColor(colColorAux);
+        setSolvedGrid(false);
+        handleButtonClick(buttonHistorial);
+      }
+    });
+  }
+
+/*
    function handleClick(i, j) {
 
     // Build Prolog query to make a move and get the new satisfacion status of the relevant clues.    
@@ -109,20 +139,22 @@ function Game() {
     }
   );
 }
-
-
+*/
   function handleButtonClick(buttonId) {
     console.log(`Button ${buttonId} clicked`);
-    content = buttonId === 'button1' ? 'X' : '#';
-    setActiveButton(buttonId);
-  }  
 
-  function handleSwitchButtonClick() {
-    console.log('Switch button clicked');
-    const newButtonId = activeButton === 'button1' ? 'button2' : 'button1';
-    content = newButtonId === 'button1' ? 'X' : '#';
-    setActiveButton(newButtonId);
+    // If the "Solve" button is clicked, solve the entire grid
+    if (buttonId === 'button3') {
+      solveGrid();
   }
+
+  // If the "X" or "#" button is clicked, set the content accordingly
+    else {
+        content = buttonId === 'button1' ? 'X' : '#';
+        setActiveButton(buttonId);
+        buttonHistorial = buttonId;
+    }
+  }  
 
   if (!grid) {
     return null;
@@ -136,7 +168,7 @@ function Game() {
         // <div className="game-ended">Game Over! You Won!</div>
         <img src={gameWonImage} alt="You won!" /> // Muestra la imagen cuando el juego termina
       ) : (
-        <>
+        <> 
           <Board
             grid={grid}
             rowsClues={rowsClues}
@@ -147,11 +179,6 @@ function Game() {
           />
           <div className="button-container">
             {/* Your existing buttons */}
-            {/* Switch button */}
-            <label className="switch">
-              <input type="checkbox" className="switch__input" onChange={handleSwitchButtonClick} />
-              <span className="switch__icon"></span>
-            </label>
             <div className="buttons">
               {/* Switch button */}
               <button 
@@ -179,9 +206,16 @@ function Game() {
               </button>
   
               {/* Button 3 */}
-              <button className="button" onClick={() => handleButtonClick('button3')}>Solve</button>
+              <button className="button" onClick={() => handleButtonClick('button3')}
+                style={{ width: '50px', height: '50px' }}
+              >
+                <img 
+                  src={botonZ} 
+                  alt="Descripción de la imagen" 
+                  style={{ height: '100%' }}
+                />
+              </button>
             </div>
-            
             {/* End of button container */}
           </div>
         </>
