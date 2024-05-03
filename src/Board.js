@@ -31,8 +31,7 @@ function Board({ grid, rowsClues, colsClues,colColor,rowColor,onClick }) {
                     className="rowClues"
                     style={{
                         gridTemplateRows: `repeat(${numOfRows}, 70px)`,
-                        gridTemplateColumns: '70px'
-                        /* IDEM column clues above */
+                        gridTemplateColumns: '70px'                       
                     }}
                 >
                     {rowsClues.map((clue, i) =>

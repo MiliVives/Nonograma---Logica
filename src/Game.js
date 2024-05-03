@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PengineClient from './PengineClient';
 import Board from './Board';
-import Clue from './Clue';
 import gameWonImage from './End.png'; // Importa la imagen
 import botonX from './clave.png'; 
 import botonY from './bateria.png'; 
@@ -10,7 +9,6 @@ import botonZ from './ojo.png'
 let pengine;
 let content = 'X';
 let buttonHistorial = 'X';
-// Define a function to solve the entire grid
 
 function Game() {
 
@@ -24,9 +22,7 @@ function Game() {
   const [solvedGrid, setSolvedGrid] = useState(false);
 
   useEffect(() => {
-
     PengineClient.init(handleServerReady);
-    // eslint-disable-next-line
   }, []);
 
   function handleServerReady(instance) {
@@ -67,7 +63,7 @@ function Game() {
             setColsClues(response['PistasColumns']);
 
             // Checkea todas las pistas para saber si alguna está completa
-            // 
+
             const squaresS = JSON.stringify(grid).replaceAll('"_"', "_"); 
             const filaS = JSON.stringify(rowsClues);
             const colS = JSON.stringify(colsClues);
@@ -83,7 +79,6 @@ function Game() {
         }
     });
 }
-
 
 function handleClick(i, j) {
   // Si solvedGrid está disponible y la celda está vacía en la cuadrícula actual, revelar el carácter correcto
@@ -117,38 +112,15 @@ function handleClick(i, j) {
     });
   }
 
-/*
-   function handleClick(i, j) {
-
-    // Build Prolog query to make a move and get the new satisfacion status of the relevant clues.    
-    const squaresS = JSON.stringify(grid).replaceAll('"_"', '_'); //Remove quotes for variables. squares = [["X",_,_,_,_],["X",_,"X",_,_],["X",_,_,_,_],["#","#","#",_,_],[_,_,"#","#","#"]]
-    const rowsCluesS = JSON.stringify(rowsClues); 
-    const colsCluesS = JSON.stringify(colsClues);
-    const queryS = `put("${content}", [${i},${j}], ${rowsCluesS}, ${colsCluesS}, ${squaresS}, ResGrid, RowSat, ColSat)`; // queryS = put("#",[0,1],[], [],[["X",_,_,_,_],["X",_,"X",_,_],["X",_,_,_,_],["#","#","#",_,_],[_,_,"#","#","#"]], GrillaRes, FilaSat, ColSat)
-
-    pengine.query(queryS, (success, response) => {
-       if (success) {
-        const rowColorAux = rowColor.slice();
-        const colColorAux = colColor.slice();
-        rowColorAux[i] = response['RowSat'];
-        colColorAux[j] = response['ColSat'];
-            setGrid(response['ResGrid']);
-            setRowColor(rowColorAux);
-            setColColor(colColorAux);
-      }
-    }
-  );
-}
-*/
   function handleButtonClick(buttonId) {
     console.log(`Button ${buttonId} clicked`);
 
-    // If the "Solve" button is clicked, solve the entire grid
+    // Si se presiona el ojo, resuelve la grilla entera
     if (buttonId === 'button3') {
       solveGrid();
   }
 
-  // If the "X" or "#" button is clicked, set the content accordingly
+  // Se actualiza el contenido en base al botón que se oprime
     else {
         content = buttonId === 'button1' ? 'X' : '#';
         setActiveButton(buttonId);
@@ -160,12 +132,9 @@ function handleClick(i, j) {
     return null;
   }
 
-  
-  return (
+    return (
     <div className="game">
-      {/* Your grid rendering logic here... */}
-      {(!colColor.includes(0) && !rowColor.includes(0) && colColor[0] != null) ? (
-        // <div className="game-ended">Game Over! You Won!</div>
+          {(!colColor.includes(0) && !rowColor.includes(0) && colColor[0] != null) ? (
         <img src={gameWonImage} alt="You won!" /> // Muestra la imagen cuando el juego termina
       ) : (
         <> 
@@ -178,10 +147,8 @@ function handleClick(i, j) {
             onClick={(i, j) => handleClick(i, j)}
           />
           <div className="button-container">
-            {/* Your existing buttons */}
             <div className="buttons">
-              {/* Switch button */}
-              <button 
+              <button  // boton X
                 className={`button ${activeButton === 'button1' ? 'active' : ''}`} 
                 onClick={() => handleButtonClick('button1')}
                 style={{ width: '50px', height: '50px' }}
@@ -193,7 +160,7 @@ function handleClick(i, j) {
                 />
               </button>
   
-              <button 
+              <button  // boton #
                 className={`button ${activeButton === 'button2' ? 'active' : ''}`} 
                 onClick={() => handleButtonClick('button2')}
                 style={{ width: '50px', height: '50px' }}
@@ -204,9 +171,10 @@ function handleClick(i, j) {
                   style={{ height: '100%' }}
                 />
               </button>
-  
-              {/* Button 3 */}
-              <button className="button" onClick={() => handleButtonClick('button3')}
+              
+              <button  // boton ojo
+                className="button" 
+                onClick={() => handleButtonClick('button3')}
                 style={{ width: '50px', height: '50px' }}
               >
                 <img 
@@ -216,7 +184,6 @@ function handleClick(i, j) {
                 />
               </button>
             </div>
-            {/* End of button container */}
           </div>
         </>
       )}

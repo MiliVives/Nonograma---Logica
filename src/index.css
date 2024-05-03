@@ -70,8 +70,6 @@ video {
   background: #d7ce57df;
   border-radius: 12px;
   margin: 1px;
-  /*padding-left: 30px;*/
-  /*padding-right: 30px;*/
   font-weight: bold;
   font-size: 20px;
 }
@@ -101,7 +99,6 @@ video {
 .colClues .clueCompleted {
   flex-direction: column;
 }
-
 
 .game {
   display: flex;
@@ -138,7 +135,6 @@ video {
 
 .button:hover {
   background-color: #d7ce57df;
-  /*border: 2px;*/
 }
 
 .button:active {
@@ -147,12 +143,10 @@ video {
 
 .button:focus {
   outline: none; 
-/*  box-shadow: 0 0 10px #ffffff; */
   background-color: #d7ce57df;
 }
 
 .buttons button.active {
-/*  background-color: #d7ce57df; */ 
    border: 2px solid #d7ce57df;
 }
 
@@ -162,8 +156,6 @@ video {
 
 .buttons button:focus {
   outline: none; 
- /* box-shadow: 0 0 10px #1c1f2e; */
-  /* background-color: #d7ce57df; */
 }
 
 .square.bloque {
@@ -182,7 +174,6 @@ video {
   transition: .4s;
 }
 
-/* Styles for the switch button */
 .switch {
   position: relative;
   display: inline-block;
@@ -203,8 +194,7 @@ video {
   left: 0;
   right: 0;
   bottom: 0;
- /* background-color: #ccc;*/
-  background-image: url('./clave.png'); /* Default "off" image */
+   background-image: url('./clave.png'); 
   background-size: cover;
   transition: .4s;
   border-radius: 34px;
