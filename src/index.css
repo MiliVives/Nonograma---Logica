@@ -25,7 +25,8 @@ video {
 }
 
 .square {
-  background: #1c1f2e;
+  background-color: #1c1f2e;
+  opacity: 0.97;
   border: 2px solid #e2da5b;
   font-size: 24px;
   font-weight: bold;
