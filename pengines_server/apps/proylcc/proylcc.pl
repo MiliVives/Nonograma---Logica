@@ -5,6 +5,7 @@
 
 :-use_module(library(lists)).
 :-use_module(library(clpfd)).
+:- use_module(proylcc:init).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % replace/5 = reemplazar un elemento en una lista por otro elemento en un índice específico.
@@ -178,7 +179,6 @@ arcs([K|Ks], Arcs, CurState, Final) :-
         arcs([K1|Ks], Rest, NextState, Final)
     ).
 
-
 make_grid(Grid, X, Y, Vars) :-
     length(Grid,X),
     make_rows(Grid, Y, Vars).
@@ -188,14 +188,19 @@ make_rows([R|Rs], Len, Vars) :-
     make_rows(Rs, Len, Vars0),
     append(R, Vars0, Vars).
 
+% Predicado para contar elementos de una lista
+contar([], 0).
+contar([_|[]], N) :- N is 1.
+contar([_|T], N) :- contar(T, M), N is M + 1.
 
-matrix(5, 5,
-	[[3], [1,2], [4], [5], [5]],
 
-	[[2], [5], [1,3], [5], [4]]).
 
 go(Grid) :-
-    matrix(X, Y, Rows, Cols),
-    make_grid(Grid, X, Y, Vars),
+	init(Rows, Cols, _),
+	contar(Rows,X),
+	contar(Cols,Y),
+	make_grid(Grid, X, Y, Vars),
     nono(Rows, Cols, Grid),
     label(Vars).
+
+	
