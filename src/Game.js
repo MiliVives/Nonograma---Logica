@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react';
 import PengineClient from './PengineClient';
 import Board from './Board';
 import gameWonVideo from './End.png'; // Importa el video
+import startGameImage from './startBackground.png'; // Importa el video
+import startButtonImage from './startButton.png'; // Replace with your image path
 import botonX from './clave.png'; 
 import botonY from './bateria.png'; 
 import botonZ from './closedEye.png'
 import botonZO from './openedEye.png'
+
 
 let pengine;
 let content = 'X';
@@ -21,6 +24,8 @@ function Game() {
   const [colColor, setColColor] = useState([]);
   const [solvedGrid, setSolvedGrid] = useState(false);
   const [button3Image, setButton3Image] = useState(botonZ); 
+  const [showStartImage, setShowStartImage] = useState(true); 
+
 
   useEffect(() => {
     PengineClient.init(handleServerReady);
@@ -120,12 +125,31 @@ function handleClick(i, j) {
     }
   }  
 
+  function handleCloseStartImage() {
+    setShowStartImage(false); // Cierra la imagen de inicio al presionar el botón
+  }
+
   if (!grid) {
     return null;
   }
 
   return (
     <div className="game">
+      {showStartImage && ( // Mostrar la imagen de inicio solo si showStartImage es verdadero
+        <div className="start-image-overlay">
+          <img src={startGameImage} alt="Start Game" />
+          <circleButton className="start-button" onClick={() => handleCloseStartImage()
+              }
+                style={{ width: '50px', height: '50px' }}
+              >
+                <img 
+                  src={startButtonImage} 
+                  alt="Descripción de la imagen" 
+                  style={{ height: '100%' }}
+                />
+              </circleButton>
+        </div>
+      )}
       {(!colColor.includes(0) && !rowColor.includes(0) && colColor[0] != null) ? (
         <img src={gameWonVideo} alt="You won!" /> // Muestra la imagen cuando el juego termina
       ) : (    
@@ -151,7 +175,6 @@ function handleClick(i, j) {
                   style={{ height: '100%' }}
                 />
               </button>
-  
               <button //Button # 
                 className={`button ${activeButton === 'button2' ? 'active' : ''}`} 
                 onClick={() => handleButtonClick('button2')}
@@ -163,10 +186,8 @@ function handleClick(i, j) {
                   style={{ height: '100%' }}
                 />
               </button>
-  
               {/* Button Solucionador */}
               <circleButton className="button" onClick={() => handleButtonClick('button3')
-                
               }
                 style={{ width: '50px', height: '50px' }}
               >
