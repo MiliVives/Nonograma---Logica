@@ -6,6 +6,8 @@ import botonX from './clave.png';
 import botonY from './bateria.png'; 
 import botonZ from './closedEye.png'
 import botonZO from './openedEye.png'
+import botonS from './lightOff.png'
+import botonSO from './lightOn.png'
 
 let pengine;
 let content = 'X';
@@ -21,6 +23,7 @@ function Game() {
   const [colColor, setColColor] = useState([]);
   const [solvedGrid, setSolvedGrid] = useState(false);
   const [button3Image, setButton3Image] = useState(botonZ); 
+  const [button4Image, setButton4Image] = useState(botonS); 
 
   useEffect(() => {
     PengineClient.init(handleServerReady);
@@ -47,7 +50,17 @@ function Game() {
             setSolvedGrid(response['Grid']);
         }
     });
-}
+  }
+  
+  //modificar para que resuelva toda la grilla y despues al volver a clickear te retorne
+  function solveAllTheGrid() {
+    const queryS = 'go(Grid)';
+     pengine.query(queryS, (success, response) => {
+         if (success) {
+             setSolvedGrid(response['Grid']);
+         }
+     });
+  }
 
 
 
@@ -102,6 +115,7 @@ function handleClick(i, j) {
         setSolvedGrid(false);
         handleButtonClick(buttonHistorial);
         setButton3Image(botonZ);
+        setButton4Image(botonS);
       }
     });
   }
@@ -111,6 +125,11 @@ function handleClick(i, j) {
     if (buttonId === 'button3') {
       solveGrid();
       setButton3Image(botonZO);
+  }
+  // Si se clickea 
+  else if (buttonId === 'button4') {
+    solveAllTheGrid();
+    setButton4Image(botonSO);
   }
   // Si se clickea X o #, se setea el contenido que corresponde
     else {
@@ -172,6 +191,17 @@ function handleClick(i, j) {
               >
                 <img 
                   src={button3Image} 
+                  alt="Descripción de la imagen" 
+                  style={{ height: '100%' }}
+                />
+              </circleButton>
+              <circleButton className="button" onClick={() => handleButtonClick('button4')
+                
+              }
+                style={{ width: '50px', height: '50px' }}
+              >
+                <img 
+                  src={button4Image} 
                   alt="Descripción de la imagen" 
                   style={{ height: '100%' }}
                 />
