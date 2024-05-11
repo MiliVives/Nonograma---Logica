@@ -8,6 +8,8 @@ import botonX from './clave.png';
 import botonY from './bateria.png'; 
 import botonZ from './closedEye.png'
 import botonZO from './openedEye.png'
+import botonS from './lightOff.png'
+import botonSO from './lightOn.png'
 
 
 let pengine;
@@ -23,8 +25,11 @@ function Game() {
   const [rowColor, setRowColor] = useState([]);
   const [colColor, setColColor] = useState([]);
   const [solvedGrid, setSolvedGrid] = useState(false);
+  const [solvedBool, setSolvedBool] = useState(false);
   const [button3Image, setButton3Image] = useState(botonZ); 
   const [showStartImage, setShowStartImage] = useState(true); 
+  const [button4Image, setButton4Image] = useState(botonS); 
+
 
 
   useEffect(() => {
@@ -43,19 +48,15 @@ function Game() {
         loadGrid(0);
       }
     });
-  }
-
-  function solveGrid() {
-   const queryS = 'go(Grid)';
-    pengine.query(queryS, (success, response) => {
+    const querySs = 'go(GridR)';
+    pengine.query(querySs, (success, response) => {
         if (success) {
-            setSolvedGrid(response['Grid']);
+            setSolvedGrid(response['GridR']);
+            setSolvedBool(true);
         }
-    });
-}
-
-
-
+      });
+    }
+  
   function loadGrid(n) {
     let queryS = 'init( PistasFilas, PistasColumns, Grilla)';
     pengine.query(queryS, (success, response) => {
@@ -82,7 +83,7 @@ function Game() {
 
 function handleClick(i, j) {
   // Si solvedGrid está disponible y la celda está vacía en la cuadrícula actual, revelar el carácter correcto
-  if (solvedGrid && grid[i][j] === '_') {
+  if (solvedBool && solvedGrid && grid[i][j] === '_') {
     console.log('Entre aqui');
     let correctCharacter = solvedGrid[i][j];
     const newGrid = [...grid]; // copia del estado de la grilla
@@ -104,9 +105,10 @@ function handleClick(i, j) {
         setGrid(response['ResGrid']);
         setRowColor(rowColorAux);
         setColColor(colColorAux);
-        setSolvedGrid(false);
+        setSolvedBool(false);
         handleButtonClick(buttonHistorial);
         setButton3Image(botonZ);
+        setButton4Image(botonS);
       }
     });
   }
@@ -114,8 +116,13 @@ function handleClick(i, j) {
   function handleButtonClick(buttonId) {
   // Si el boton Solve se clickea, soluciona la grilla.
     if (buttonId === 'button3') {
-      solveGrid();
+      setSolvedBool(true);
       setButton3Image(botonZO);
+  }
+  // Si se clickea 
+  else if (buttonId === 'button4') {
+   // ¿solveAllTheGrid();
+    setButton4Image(botonSO);
   }
   // Si se clickea X o #, se setea el contenido que corresponde
     else {
@@ -125,8 +132,11 @@ function handleClick(i, j) {
     }
   }  
 
+  // Cierra la imagen de inicio al presionar el botón que se habilita cuando la grilla esta resuelta
   function handleCloseStartImage() {
-    setShowStartImage(false); // Cierra la imagen de inicio al presionar el botón
+    if (solvedBool)
+    setShowStartImage(false); 
+    setSolvedBool(false);
   }
 
   if (!grid) {
@@ -140,7 +150,7 @@ function handleClick(i, j) {
           <img src={startGameImage} alt="Start Game" />
           <circleButton className="start-button" onClick={() => handleCloseStartImage()
               }
-                style={{ width: '50px', height: '50px' }}
+                style={{ width: '80px', height: '80px' }}
               >
                 <img 
                   src={startButtonImage} 
@@ -155,7 +165,7 @@ function handleClick(i, j) {
       ) : (    
         <> 
           <Board
-            grid={grid}
+            grid={grid}s
             rowsClues={rowsClues}
             colsClues={colsClues}
             colColor={colColor}
@@ -193,6 +203,17 @@ function handleClick(i, j) {
               >
                 <img 
                   src={button3Image} 
+                  alt="Descripción de la imagen" 
+                  style={{ height: '100%' }}
+                />
+              </circleButton>
+              <circleButton className="button" onClick={() => handleButtonClick('button4')
+                
+              }
+                style={{ width: '50px', height: '50px' }}
+              >
+                <img 
+                  src={button4Image} 
                   alt="Descripción de la imagen" 
                   style={{ height: '100%' }}
                 />
