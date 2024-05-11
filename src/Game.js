@@ -13,8 +13,8 @@ import botonSO from './lightOn.png'
 
 
 let pengine;
-let content = 'X';
-let buttonHistorial = 'X';
+let content = '#';
+let buttonHistorial = '#';
 
 function Game() {
 
@@ -121,7 +121,7 @@ function handleClick(i, j) {
   }
   // Si se clickea 
   else if (buttonId === 'button4') {
-   // ¿solveAllTheGrid();
+    showSolvedGrid();
     setButton4Image(botonSO);
   }
   // Si se clickea X o #, se setea el contenido que corresponde
@@ -139,27 +139,28 @@ function handleClick(i, j) {
     setSolvedBool(false);
   }
 
+  function showSolvedGrid() {
+    if (solvedBool)
+    setShowStartImage(false); 
+    setSolvedBool(false);
+  }
+
   if (!grid) {
     return null;
   }
 
   return (
-    <div className="game">
-      {showStartImage && ( // Mostrar la imagen de inicio solo si showStartImage es verdadero
-        <div className="start-image-overlay">
-          <img src={startGameImage} alt="Start Game" />
-          <circleButton className="start-button" onClick={() => handleCloseStartImage()
-              }
-                style={{ width: '80px', height: '80px' }}
-              >
-                <img 
-                  src={startButtonImage} 
-                  alt="Descripción de la imagen" 
-                  style={{ height: '100%' }}
-                />
-              </circleButton>
-        </div>
-      )}
+<div className="game">
+    {showStartImage && ( // Mostrar la imagen de inicio solo si showStartImage es verdadero
+      <div className="start-image-overlay">
+        <img src={startGameImage} alt="Start Game" />
+        <div className="startButton-container">
+          <circleButton className="start-button" onClick={() => handleCloseStartImage()} style={{ width: '80px', height: '80px' }}>
+            <img src={startButtonImage} alt="Descripción de la imagen" style={{ height: '100%' }} />
+          </circleButton>
+        </div> 
+      </div>
+    )}
       {(!colColor.includes(0) && !rowColor.includes(0) && colColor[0] != null) ? (
         <img src={gameWonVideo} alt="You won!" /> // Muestra la imagen cuando el juego termina
       ) : (    
@@ -208,7 +209,6 @@ function handleClick(i, j) {
                 />
               </circleButton>
               <circleButton className="button" onClick={() => handleButtonClick('button4')
-                
               }
                 style={{ width: '50px', height: '50px' }}
               >

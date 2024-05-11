@@ -280,3 +280,14 @@ video {
   margin-right: -94px;
 }
 
+.startButton-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 35px;
+  margin-bottom: -35px;
+  margin-left: 94px;
+  margin-right: -94px;
+}
+
+
