@@ -179,6 +179,26 @@ video {
   transition: background-color 0.3s ease;
 }
 
+.buttons buttonIdea {
+  margin: 20px; 
+  margin-left: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  font-weight: bold;
+  font-size: 25px;
+  transition: background-color 0.3s ease;
+}
+
+.buttonIdea:hover{
+  background-color: #d7ce57df;
+}
+
+.buttonIdea.active:hover {
+  background-color: #a2e4f4;
+}
+
 .button:hover {
   background-color: #d7ce57df;
 }
