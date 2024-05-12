@@ -11,6 +11,7 @@ import botonZO from './openedEye.png'
 import botonS from './lightOff.png'
 import botonSO from './lightOn.png'
 
+
 let pengine;
 let content = '#';
 let buttonHistorial = '#';
@@ -28,6 +29,8 @@ function Game() {
   const [button3Image, setButton3Image] = useState(botonZ); 
   const [showStartImage, setShowStartImage] = useState(true); 
   const [button4Image, setButton4Image] = useState(botonS); 
+  const [isActive, setIsActive] = useState(false);
+
 
   useEffect(() => {
     PengineClient.init(handleServerReady);
@@ -42,7 +45,7 @@ function Game() {
         setGrid(response['Grid']);
         setRowsClues(response['RowClues']);
         setColsClues(response['ColumClues']);
-     // loadGrid();
+        loadGrid(0);
       }
     });
     const querySs = 'go(GridR)';
@@ -54,13 +57,14 @@ function Game() {
       });
     }
   
-  function loadGrid() {
+  function loadGrid(n) {
     let queryS = 'init( PistasFilas, PistasColumns, Grilla)';
     pengine.query(queryS, (success, response) => {
         if (success) {
             setGrid(response['Grilla']);
             setRowsClues(response['PistasFilas']);
             setColsClues(response['PistasColumns']);
+
             const squaresS = JSON.stringify(grid).replaceAll('"_"', "_"); 
             const filaS = JSON.stringify(rowsClues);
             const colS = JSON.stringify(colsClues);
@@ -71,7 +75,6 @@ function Game() {
                 if (success) {
                     setRowColor(response['FilaSatL']);
                     setColColor(response['ColSatL']);
-
                 }
             });
         }
@@ -81,6 +84,7 @@ function Game() {
 function handleClick(i, j) {
   // Si solvedGrid está disponible y la celda está vacía en la cuadrícula actual, revelar el carácter correcto
   if (solvedBool && solvedGrid && grid[i][j] === '_') {
+    console.log('Entre aqui');
     let correctCharacter = solvedGrid[i][j];
     const newGrid = [...grid]; // copia del estado de la grilla
     console.log(correctCharacter); // 1 si es #, 0 si es X
@@ -117,8 +121,15 @@ function handleClick(i, j) {
   }
   // Si se clickea 
   else if (buttonId === 'button4') {
-    showSolvedGrid();
-    setButton4Image(botonSO);
+    if(isActive){
+      setButton4Image(botonS);
+      setActiveButton(buttonId);
+      //ocultar grilla
+    }else{
+      showSolvedGrid();
+      setActiveButton(buttonId);
+      setButton4Image(botonSO);
+    }
   }
   // Si se clickea X o #, se setea el contenido que corresponde
     else {
@@ -130,12 +141,9 @@ function handleClick(i, j) {
 
   // Cierra la imagen de inicio al presionar el botón que se habilita cuando la grilla esta resuelta
   function handleCloseStartImage() {
-    if (solvedBool){
+    if (solvedBool)
     setShowStartImage(false); 
-    loadGrid();
-    }
     setSolvedBool(false);
-
   }
 
   function showSolvedGrid() {
@@ -207,8 +215,12 @@ function handleClick(i, j) {
                   style={{ height: '100%' }}
                 />
               </circleButton>
-              <circleButton className="button" onClick={() => handleButtonClick('button4')
-              }
+              <circleButton
+                className={`buttonIdea ${isActive ? 'active' : ''}`}
+                onClick={() => {
+                  handleButtonClick('button4');
+                  setIsActive(!isActive); 
+                }}
                 style={{ width: '50px', height: '50px' }}
               >
                 <img 
