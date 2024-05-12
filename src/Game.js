@@ -162,7 +162,7 @@ function handleClick(i, j) {
     <img src={startGameImage} alt="Start Game" />
     <div className="startButton-container">
       <circleButton className="start-button" onClick={() => handleCloseStartImage()} style={{ width: '80px', height: '80px' }}>
-        <img src={startButtonImage} alt="Descripción de la imagen" style={{ height: '100%' }} />
+        <img src={startButtonImage} alt="Descripción de la imagen" style={{ height: '140%', width: '140%' }} />
       </circleButton>
     </div> 
   </div>

@@ -301,11 +301,9 @@ video {
 }
 
 .start-image-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  width: 0%;
+  height: 0%;
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 9999;
   display: flex;
@@ -314,8 +312,18 @@ video {
 }
 
 .startButton-container {
-  position: fixed; /* Hace que el contenedor del botón sea posicionado absolutamente */
+  position: absolute; /* Hace que el contenedor del botón sea posicionado absolutamente */
   top: 0%; /* Posiciona el contenedor del botón en el centro vertical */
   left: 100%; /* Posiciona el contenedor del botón en el centro horizontal */
   transform: translate(50%, -50%); /* Centra el contenedor del botón */
+}
+
+.start-button {
+  position: inherit; /* Inherit absolute positioning from container */
+  width: 80px;
+  height: 80px;
+  top: 119px;
+  left: -29px;
+  right: 50px;
+  bottom: 0;
 }
