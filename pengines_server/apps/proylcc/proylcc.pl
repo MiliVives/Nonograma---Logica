@@ -5,7 +5,7 @@
 
 :-use_module(library(lists)).
 :-use_module(library(clpfd)).
-:- use_module(proylcc:init).
+:-use_module(proylcc:init).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % replace/5 = reemplazar un elemento en una lista por otro elemento en un índice específico.
@@ -31,12 +31,21 @@ put(Content, [RowN, ColN], PistasFilas, PistasColumnas, Grilla, GrillaRes, RowSa
 	% verifica si la celda especificada ([RowN, ColN]) está vacía o contiene un Content. Si está vacía, la reemplaza con el Content.
 	(replace(Celda, ColN, _, Row, NewRow), Celda == Content ; replace(_Celda, ColN, Content, Row, NewRow)),
 
+	%checquea si la pos [RowN, ColN] cumple alguna pista.
+	checkSat([RowN, ColN], PistasFilas, PistasColumnas,GrillaRes, RowSat, ColSat).	
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+checkSat([RowN, ColN], PistasFilas, PistasColumnas,GrillaRes, RowSat, ColSat):-
 	nth0(RowN, PistasFilas, ListaFila),nth0(RowN, GrillaRes, GrillaFila),
 	checkear(ListaFila, GrillaFila, RowSat),
 
 	nth0(ColN, PistasColumnas, ListaColumna),
 	getCol(GrillaRes, ColN, GrillaCol),
 	checkear(ListaColumna, GrillaCol, ColSat).
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %

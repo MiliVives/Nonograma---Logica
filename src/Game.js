@@ -11,7 +11,6 @@ import botonZO from './openedEye.png'
 import botonS from './lightOff.png'
 import botonSO from './lightOn.png'
 
-
 let pengine;
 let content = '#';
 let buttonHistorial = '#';
@@ -30,8 +29,6 @@ function Game() {
   const [showStartImage, setShowStartImage] = useState(true); 
   const [button4Image, setButton4Image] = useState(botonS); 
 
-
-
   useEffect(() => {
     PengineClient.init(handleServerReady);
     // eslint-disable-next-line
@@ -45,7 +42,7 @@ function Game() {
         setGrid(response['Grid']);
         setRowsClues(response['RowClues']);
         setColsClues(response['ColumClues']);
-        loadGrid(0);
+     // loadGrid();
       }
     });
     const querySs = 'go(GridR)';
@@ -57,14 +54,13 @@ function Game() {
       });
     }
   
-  function loadGrid(n) {
+  function loadGrid() {
     let queryS = 'init( PistasFilas, PistasColumns, Grilla)';
     pengine.query(queryS, (success, response) => {
         if (success) {
             setGrid(response['Grilla']);
             setRowsClues(response['PistasFilas']);
             setColsClues(response['PistasColumns']);
-
             const squaresS = JSON.stringify(grid).replaceAll('"_"', "_"); 
             const filaS = JSON.stringify(rowsClues);
             const colS = JSON.stringify(colsClues);
@@ -75,6 +71,7 @@ function Game() {
                 if (success) {
                     setRowColor(response['FilaSatL']);
                     setColColor(response['ColSatL']);
+
                 }
             });
         }
@@ -84,7 +81,6 @@ function Game() {
 function handleClick(i, j) {
   // Si solvedGrid está disponible y la celda está vacía en la cuadrícula actual, revelar el carácter correcto
   if (solvedBool && solvedGrid && grid[i][j] === '_') {
-    console.log('Entre aqui');
     let correctCharacter = solvedGrid[i][j];
     const newGrid = [...grid]; // copia del estado de la grilla
     console.log(correctCharacter); // 1 si es #, 0 si es X
@@ -134,9 +130,12 @@ function handleClick(i, j) {
 
   // Cierra la imagen de inicio al presionar el botón que se habilita cuando la grilla esta resuelta
   function handleCloseStartImage() {
-    if (solvedBool)
+    if (solvedBool){
     setShowStartImage(false); 
+    loadGrid();
+    }
     setSolvedBool(false);
+
   }
 
   function showSolvedGrid() {
