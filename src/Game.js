@@ -45,7 +45,6 @@ function Game() {
         setGrid(response['Grid']);
         setRowsClues(response['RowClues']);
         setColsClues(response['ColumClues']);
-        loadGrid(0);
       }
     });
     const querySs = 'go(GridR)';
@@ -57,7 +56,7 @@ function Game() {
       });
     }
   
-  function loadGrid(n) {
+  function loadGrid() {
     let queryS = 'init( PistasFilas, PistasColumns, Grilla)';
     pengine.query(queryS, (success, response) => {
         if (success) {
@@ -141,8 +140,10 @@ function handleClick(i, j) {
 
   // Cierra la imagen de inicio al presionar el botón que se habilita cuando la grilla esta resuelta
   function handleCloseStartImage() {
-    if (solvedBool)
+    if (solvedBool){
     setShowStartImage(false); 
+    loadGrid();
+    }
     setSolvedBool(false);
   }
 
