@@ -23,7 +23,7 @@ video {
   transform: translate(-50%, -50%);
   z-index: -1;
 }
-
+/*
 .start-image-overlay {
   position: fixed;
   top: 0;
@@ -40,7 +40,7 @@ video {
 .start-image-overlay img {
   max-width: 100%;
   max-height: 220%;
-}
+}*/
 
 .start-button {
   position: absolute;
@@ -280,14 +280,22 @@ video {
   margin-right: -94px;
 }
 
-.startButton-container {
+.start-image-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
   display: flex;
-  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  margin-top: 35px;
-  margin-bottom: -35px;
-  margin-left: 94px;
-  margin-right: -94px;
 }
 
-
+.startButton-container {
+  position: fixed; /* Hace que el contenedor del botón sea posicionado absolutamente */
+  top: 0%; /* Posiciona el contenedor del botón en el centro vertical */
+  left: 100%; /* Posiciona el contenedor del botón en el centro horizontal */
+  transform: translate(50%, -50%); /* Centra el contenedor del botón */
+}

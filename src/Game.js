@@ -139,9 +139,7 @@ function handleClick(i, j) {
   }
 
   function showSolvedGrid() {
-    if (solvedBool)
-    setShowStartImage(false); 
-    setSolvedBool(false);
+    
   }
 
   if (!grid) {
@@ -151,14 +149,14 @@ function handleClick(i, j) {
   return (
 <div className="game">
     {showStartImage && ( // Mostrar la imagen de inicio solo si showStartImage es verdadero
-      <div className="start-image-overlay">
-        <img src={startGameImage} alt="Start Game" />
-        <div className="startButton-container">
-          <circleButton className="start-button" onClick={() => handleCloseStartImage()} style={{ width: '80px', height: '80px' }}>
-            <img src={startButtonImage} alt="Descripción de la imagen" style={{ height: '100%' }} />
-          </circleButton>
-        </div> 
-      </div>
+    <div className="start-image-overlay">
+    <img src={startGameImage} alt="Start Game" />
+    <div className="startButton-container">
+      <circleButton className="start-button" onClick={() => handleCloseStartImage()} style={{ width: '80px', height: '80px' }}>
+        <img src={startButtonImage} alt="Descripción de la imagen" style={{ height: '100%' }} />
+      </circleButton>
+    </div> 
+  </div>
     )}
       {(!colColor.includes(0) && !rowColor.includes(0) && colColor[0] != null) ? (
         <img src={gameWonVideo} alt="You won!" /> // Muestra la imagen cuando el juego termina
