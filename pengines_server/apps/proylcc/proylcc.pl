@@ -107,55 +107,29 @@ convertir([X | Xs], Ys, Leidos):-
 % checkAll/7
 % Checkea todas las filas y columnas de la grilla, siendo FilaSatL la lista de resultados de checkear las filas, y ColSatL de checkear las columnas
 
-checkAll(Grilla, PistasFilas, FilaSatL, FilasTotales, PistasColumnas, ColSatL, ColumnasTotales):-
-	checkAllRec(Grilla, FilaSatL, PistasFilas, 0, FilasTotales, ColSatL, PistasColumnas, 0, ColumnasTotales).
+checkAll(Grilla, PistasFilas, FilaSatL, FilasTotales, PistasColumnas, ColSatL, ColumnasTotales) :-
+    checkRows(Grilla, PistasFilas, FilaSatL, 0, FilasTotales),
+    checkColumns(Grilla, PistasColumnas, ColSatL, 0, ColumnasTotales).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% checkearAllRec/9
-% Recorre cada fila y columna hasta que las lee completamente (eso es, su indice es el total - 1)
+% checkRows/5
+% Chequea todas las filas de las grillas.
 
-checkAllRec(_, [], _, IndiceF, FilasTotales, [], _, IndiceC, ColumnasTotales):-
-	% Caso base: una grilla vacía tiene filas y columnas satisfechas vacías.
-	IndiceF is FilasTotales,
-	IndiceC is ColumnasTotales.
+checkRows(_, _, [], FilasTotales, FilasTotales).
+checkRows(Grilla, [PistasFila|RestoFilas], [SatFila|FilaSatL], IndiceF, FilasTotales) :-
+    nth0(IndiceF, Grilla, Fila),
+    checkear(PistasFila, Fila, SatFila),
+    IndiceFNuevo is IndiceF + 1,
+    checkRows(Grilla, RestoFilas, FilaSatL, IndiceFNuevo, FilasTotales).
 
-	checkAllRec(Grilla, [F | FilaSatL], PistasFilas, IndiceF, FilasTotales, [C | ColSatL], PistasColumnas, IndiceC, ColumnasTotales):-
-	% Caso recursivo: una grilla no vacía tiene una columna y fila que checkear, y una grilla mas pequeña que tiene que checkear
-	not(IndiceF is FilasTotales),
-	not(IndiceC is ColumnasTotales),
-	nth0(IndiceF, PistasFilas, ListaFila),
-	nth0(IndiceF, Grilla, GrillaFila),
-	checkear(ListaFila, GrillaFila, F),
-	IndiceFNuevo is IndiceF + 1,
+% checkColumns/5
+% Chequea todas las columnas de las grillas.
 
-	nth0(IndiceC, PistasColumnas, ListaColumna),
-	getCol(Grilla, IndiceC, GrillaCol),
-	checkear(ListaColumna, GrillaCol, C),
-	IndiceCNuevo is IndiceC + 1,
-
-	checkAllRec(Grilla, FilaSatL, PistasFilas, IndiceFNuevo, FilasTotales, ColSatL, PistasColumnas, IndiceCNuevo, ColumnasTotales).
-
-	checkAllRec(Grilla, FilaSatL, PistasFilas, IndiceF, FilasTotales, [C | ColSatL], PistasColumnas, IndiceC, ColumnasTotales):-
-	% El mismo caso recursivo, pero no tiene filas que checkear 
-	not(IndiceC is ColumnasTotales),
-	IndiceF is FilasTotales,
-	nth0(IndiceC, PistasColumnas, ListaColumna),
-	getCol(Grilla, IndiceC, GrillaCol),
-	checkear(ListaColumna, GrillaCol, C),
-	IndiceCNuevo is IndiceC + 1,
-
-	checkAllRec(Grilla, FilaSatL, PistasFilas, IndiceF, FilasTotales, ColSatL, PistasColumnas, IndiceCNuevo, ColumnasTotales).
-
-	checkAllRec(Grilla, [F | FilaSatL], PistasFilas, IndiceF, FilasTotales, ColSatL, PistasColumnas, IndiceC, ColumnasTotales):-
-	% El mismo caso recursivo, pero no tiene columnas que checkear
-	not(IndiceF is FilasTotales),
-	IndiceC is ColumnasTotales,
-	nth0(IndiceF, PistasFilas, ListaFila),
-	nth0(IndiceF, Grilla, GrillaFila),
-	checkear(ListaFila, GrillaFila, F),
-	IndiceFNuevo is IndiceF + 1,
-
-	checkAllRec(Grilla, FilaSatL, PistasFilas, IndiceFNuevo, FilasTotales, ColSatL, PistasColumnas, IndiceC, ColumnasTotales).
+checkColumns(_, _, [], ColumnasTotales, ColumnasTotales).
+checkColumns(Grilla, [PistasColumna|RestoColumnas], [SatColumna|ColSatL], IndiceC, ColumnasTotales) :-
+    getCol(Grilla, IndiceC, Columna),
+    checkear(PistasColumna, Columna, SatColumna),
+    IndiceCNuevo is IndiceC + 1,
+    checkColumns(Grilla, RestoColumnas, ColSatL, IndiceCNuevo, ColumnasTotales).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%     SOLUCIONADOR     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
