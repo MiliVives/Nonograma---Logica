@@ -3,7 +3,6 @@ import React from 'react';
 function Square(props) {
     const pintar = () => {
         let toReturn;
-
         switch(props.value) {
             case '_':
                 toReturn = "square";

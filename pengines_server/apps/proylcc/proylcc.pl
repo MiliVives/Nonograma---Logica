@@ -132,7 +132,6 @@ checkColumns(Grilla, [PistasColumna|RestoColumnas], [SatColumna|ColSatL], Indice
     checkColumns(Grilla, RestoColumnas, ColSatL, IndiceCNuevo, ColumnasTotales).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%     SOLUCIONADOR     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 nono(RowSpec, ColSpec, Grid) :-
     rows(RowSpec, Grid),
     transpose(Grid, GridT),
