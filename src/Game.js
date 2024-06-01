@@ -108,22 +108,24 @@ function handleClick(i, j) {
         setSolvedBool(false);
         handleButtonClick(buttonHistorial);
         setButton3Image(botonZ);
-        setButton4Image(botonS);
+        setButton4Image(botonSO);
       }
     });
   }
 
   function handleButtonClick(buttonId) {
-  // Si el boton SolveCelda se clickea, soluciona la grilla.
+  // Si el boton SolveCelda se clickea, soluciona la celda.
     if (buttonId === 'button3') {
       setSolvedBool(true);
       setButton3Image(botonZO);
   }
-  // Si se clickea el boton solverGrilla
- // Si se clickea el boton solverGrilla
- else if (buttonId === 'button4') {
-  if(isActive){
-    console.log(solvedGrid);
+  else{
+  if(solvedBool){
+    setSolvedBool(false);
+    setButton3Image(botonZ);
+    }
+  if (buttonId === 'button4') {
+  if(!isActive){
     setButton4Image(botonS);
     setOriginalGrid(grid);
     setGrid(solvedGrid); // Muestra la grilla resuelta
@@ -139,6 +141,7 @@ function handleClick(i, j) {
         buttonHistorial = buttonId;
     }
   }
+}
 
   function translateGrid(grid) {
     return grid.map(row => row.map(cell => cell === 1 ? '#' : 'X'));
@@ -160,49 +163,49 @@ function handleClick(i, j) {
   }
 
   return (
-<div className="game">
-    {showStartImage && ( // Mostrar la imagen de inicio solo si showStartImage es verdadero
-    <div className="start-image-overlay">
-    <img src={startGameImage} alt="Start Game" />
-    <div className="startButton-container">
-      <circleButton className="start-button" onClick={() => handleCloseStartImage()} style={{ width: '80px', height: '80px' }}>
-        <img src={startButtonImage} alt="Descripción de la imagen" style={{ height: '140%', width: '140%' }} />
-      </circleButton>
-    </div> 
-  </div>
-    )}
-      {(!colColor.includes(0) && !rowColor.includes(0) && colColor[0] != null) ? (
-        <img src={gameWonVideo} alt="You won!" /> // Muestra la imagen cuando el juego termina
-      ) : (    
-        <> 
-          <Board
-            grid={grid}
-            rowsClues={rowsClues}
-            colsClues={colsClues}
-            colColor={colColor}
-            rowColor={rowColor}
-            onClick={(i, j) => handleClick(i, j)}
-          />
-          <div className="button-container">
-            <div className="buttons">             
-              <button //Button X
-                className={`button ${activeButton === 'button1' ? 'active' : ''}`} 
-                onClick={() => handleButtonClick('button1')}
-                style={{ width: '50px', height: '50px' }}
-              >
-                <img 
-                  src={botonX} 
-                  alt="Descripción de la imagen" 
-                  style={{ height: '100%' }}
-                />
-              </button>
-              <button //Button # 
-                className={`button ${activeButton === 'button2' ? 'active' : ''}`} 
-                onClick={() => handleButtonClick('button2')}
-                style={{ width: '50px', height: '50px' }}
-              >
-                <img 
-                  src={botonY} 
+    <div className="game">
+        {showStartImage && ( // Mostrar la imagen de inicio solo si showStartImage es verdadero
+        <div className="start-image-overlay">
+        <img src={startGameImage} alt="Start Game" />
+        <div className="startButton-container">
+          <circleButton className="start-button" onClick={() => handleCloseStartImage()} style={{ width: '80px', height: '80px' }}>
+            <img src={startButtonImage} alt="Descripción de la imagen" style={{ height: '140%', width: '140%' }} />
+          </circleButton>
+        </div> 
+      </div>
+        )}
+          {(!colColor.includes(0) && !rowColor.includes(0) && colColor[0] != null) ? (
+            <img src={gameWonVideo} alt="You won!" /> // Muestra la imagen cuando el juego termina
+          ) : (    
+            <> 
+              <Board
+                grid={grid}
+                rowsClues={rowsClues}
+                colsClues={colsClues}
+                colColor={colColor}
+                rowColor={rowColor}
+                onClick={(i, j) => handleClick(i, j)}
+              />
+              <div className="button-container">
+                <div className="buttons">             
+                  <button //Button X
+                    className={`button ${activeButton === 'button1' ? 'active' : ''}`} 
+                    onClick={() => handleButtonClick('button1')}
+                    style={{ width: '50px', height: '50px' }}
+                  >
+                    <img 
+                      src={botonX} 
+                      alt="Descripción de la imagen" 
+                      style={{ height: '100%' }}
+                    />
+                  </button>
+                  <button //Button # 
+                    className={`button ${activeButton === 'button2' ? 'active' : ''}`} 
+                    onClick={() => handleButtonClick('button2')}
+                    style={{ width: '50px', height: '50px' }}
+                  >
+                    <img 
+                      src={botonY} 
                   alt="Descripción de la imagen" 
                   style={{ height: '100%' }}
                 />
