@@ -31,7 +31,8 @@ function Game() {
   const [button3Image, setButton3Image] = useState(botonZ); 
   const [showStartImage, setShowStartImage] = useState(true); 
   const [button4Image, setButton4Image] = useState(botonSO); 
-  const [isActive, setIsActive] = useState(false);
+  const [isActive4, setIsActive4] = useState(false);
+  const [isActive3, setIsActive3] = useState(false);
   const [originalGrid, setOriginalGrid] = useState(null);
 
   useEffect(() => {
@@ -129,16 +130,23 @@ function handleClick(i, j) {
   function handleButtonClick(buttonId) { 
   // Si el boton SolveCelda se clickea, soluciona la celda.
     if (buttonId === 'button3') {
+      if(!isActive3){
       setSolvedBool(true);
       setButton3Image(botonZO);
+      }
+      else{
+        setSolvedBool(false);
+        setButton3Image(botonZ);
+      }
   }
   else{
   if(solvedBool){
+    setIsActive3(!isActive3);
     setSolvedBool(false);
     setButton3Image(botonZ);
     }
   if (buttonId === 'button4') {
-  if(!isActive){
+  if(!isActive4){
     setButton4Image(botonS);
     setOriginalGrid(grid);
     setGrid(solvedGrid); // Muestra la grilla resuelta
@@ -223,8 +231,13 @@ function handleClick(i, j) {
                   style={{ height: '100%' }}
                 />
               </button>
-              {/* Button Solucionador */}
-              <circleButton className="button" onClick={() => handleButtonClick('button3')
+              {/* Button Solucionador de celda */}
+              <circleButton 
+              className={`button ${isActive3 ? 'active' : ''}`}
+              onClick={() => {
+                setIsActive3(!isActive3);
+                handleButtonClick('button3');
+              }
               }
                 style={{ width: '50px', height: '50px' }}
               >
@@ -235,9 +248,9 @@ function handleClick(i, j) {
                 />
               </circleButton>
               <circleButton
-                className={`buttonIdea ${isActive ? 'active' : ''}`}
+                className={`buttonIdea ${isActive4 ? 'active' : ''}`}
                 onClick={() => {
-                  setIsActive(!isActive);
+                  setIsActive4(!isActive4);
                   handleButtonClick('button4'); 
                 }}
                 style={{ width: '50px', height: '50px' }}
