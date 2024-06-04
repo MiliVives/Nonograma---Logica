@@ -4,6 +4,9 @@ import Board from './Board';
 import gameWonVideo from './End.png'; // Importa el video
 import startGameImage from './startBackground.png'; // Importa el video
 import startButtonImage from './startButton.png'; // Replace with your image path
+import clickSound from './jazzRide.mp3';
+import clickSoundChorus from './choir.mp3';
+import clickSoundPiano from './piano.mp3';
 import botonX from './clave.png'; 
 import botonY from './bateria.png'; 
 import botonZ from './closedEye.png'
@@ -85,11 +88,11 @@ function Game() {
 function handleClick(i, j) {
   // Si solvedGrid está disponible y la celda está vacía en la cuadrícula actual, revelar el carácter correcto
   if (solvedBool && solvedGrid && grid[i][j] === '_') {
-    console.log('Entre aqui');
     let correctCharacter = solvedGrid[i][j];
     const newGrid = [...grid]; // copia del estado de la grilla
     content = correctCharacter;
   }
+  soundPlayer(content,solvedBool);
     // Si solvedGrid no está disponible o la celda no está vacía, realiza la consulta al servidor para colocar el carácter
     // Esto se hace de manera similar a como lo estás haciendo actualmente en esta función
     const squaresS = JSON.stringify(grid).replaceAll('"_"', '_');
@@ -113,7 +116,17 @@ function handleClick(i, j) {
     });
   }
 
-  function handleButtonClick(buttonId) {
+  function soundPlayer(content,solvedBool){
+    if (solvedBool){
+      new Audio(clickSoundChorus).play();
+    }
+    else if(content  ===  'X'){
+      new Audio(clickSound).play();
+    }
+    else new Audio(clickSoundPiano).play();
+  }
+
+  function handleButtonClick(buttonId) { 
   // Si el boton SolveCelda se clickea, soluciona la celda.
     if (buttonId === 'button3') {
       setSolvedBool(true);
