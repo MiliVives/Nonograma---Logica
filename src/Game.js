@@ -14,7 +14,6 @@ import botonZO from './openedEye.png'
 import botonS from './lightOn.png'
 import botonSO from './lightOff.png'
 
-
 let pengine;
 let content = '#';
 let buttonHistorial = '#';
@@ -34,7 +33,6 @@ function Game() {
   const [button4Image, setButton4Image] = useState(botonSO); 
   const [isActive, setIsActive] = useState(false);
   const [originalGrid, setOriginalGrid] = useState(null);
-
 
   useEffect(() => {
     PengineClient.init(handleServerReady);
@@ -86,15 +84,16 @@ function Game() {
 }
 
 function handleClick(i, j) {
-  // Si solvedGrid está disponible y la celda está vacía en la cuadrícula actual, revelar el carácter correcto
-  if (solvedBool && solvedGrid && grid[i][j] === '_') {
+  if (solvedBool && grid[i][j] === '_') {
     let correctCharacter = solvedGrid[i][j];
-    const newGrid = [...grid]; // copia del estado de la grilla
+    const newGrid = [...grid];
     content = correctCharacter;
   }
-  soundPlayer(content,solvedBool);
-    // Si solvedGrid no está disponible o la celda no está vacía, realiza la consulta al servidor para colocar el carácter
-    // Esto se hace de manera similar a como lo estás haciendo actualmente en esta función
+
+  if (solvedBool && (grid[i][j] === 'X' || grid[i][j] === '#')) {
+    return;
+  } else {
+    soundPlayer(content,solvedBool);
     const squaresS = JSON.stringify(grid).replaceAll('"_"', '_');
     const rowsCluesS = JSON.stringify(rowsClues);
     const colsCluesS = JSON.stringify(colsClues);
@@ -115,6 +114,7 @@ function handleClick(i, j) {
       }
     });
   }
+}
 
   function soundPlayer(content,solvedBool){
     if (solvedBool){
