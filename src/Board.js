@@ -2,7 +2,7 @@ import React from 'react';
 import Square from './Square';
 import Clue from './Clue';
 
-function Board({ grid, rowsClues, colsClues,colColor,rowColor,onClick }) {
+function Board({ grid, rowsClues, colsClues,colColor,rowColor,onClick, gridDisabled}) {
     const numOfRows = grid.length;
     const numOfCols = grid[0].length;
     return (
@@ -47,7 +47,7 @@ function Board({ grid, rowsClues, colsClues,colColor,rowColor,onClick }) {
                         row.map((cell, j) =>
                             <Square
                                 value={cell}
-                                onClick={() => onClick(i, j)}
+                                onClick={() => !gridDisabled && onClick(i, j)}
                                 key={i + j}
                             />
                         )

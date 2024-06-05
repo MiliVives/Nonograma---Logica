@@ -33,7 +33,11 @@ function Game() {
   const [button4Image, setButton4Image] = useState(botonSO); 
   const [isActive4, setIsActive4] = useState(false);
   const [isActive3, setIsActive3] = useState(false);
+  const [isActive2, setIsActive2] = useState(false);
+  const [isActive1, setIsActive1] = useState(false);
   const [originalGrid, setOriginalGrid] = useState(null);
+  const [buttonsDisabled, setButtonsDisabled] = useState(false); 
+  const [gridDisabled, setGridDisabled] = useState(false);
 
   useEffect(() => {
     PengineClient.init(handleServerReady);
@@ -130,13 +134,15 @@ function handleClick(i, j) {
   function handleButtonClick(buttonId) { 
   // Si el boton SolveCelda se clickea, soluciona la celda.
     if (buttonId === 'button3') {
-      if(!isActive3){
-      setSolvedBool(true);
-      setButton3Image(botonZO);
-      }
-      else{
-        setSolvedBool(false);
-        setButton3Image(botonZ);
+      if(!isActive4){
+        if(!isActive3){
+        setSolvedBool(true);
+        setButton3Image(botonZO);
+        }
+        else{
+          setSolvedBool(false);
+          setButton3Image(botonZ);
+        }
       }
   }
   else{
@@ -145,21 +151,33 @@ function handleClick(i, j) {
     setSolvedBool(false);
     setButton3Image(botonZ);
     }
+
   if (buttonId === 'button4') {
   if(!isActive4){
     setButton4Image(botonS);
     setOriginalGrid(grid);
     setGrid(solvedGrid); // Muestra la grilla resuelta
+    setGridDisabled(true); // Disable grid interactions
+    setIsActive1(isActive1);
+    setIsActive2(isActive2);
+    setIsActive3(isActive3);
   }else{
     setButton4Image(botonSO);
     setGrid(originalGrid); // Restaurar la grilla original
+    setGridDisabled(false); // Set grid to enabled state
+    setIsActive4(!isActive4);
+    setIsActive1(!isActive1);
+    setIsActive2(!isActive2);
+    setIsActive3(!isActive3);
   }
 }
   // Si se clickea X o #, se setea el contenido que corresponde
     else {
+      if(!isActive4){
         content = buttonId === 'button1' ? 'X' : '#';
         setActiveButton(buttonId);
         buttonHistorial = buttonId;
+      }
     }
   }
 }
@@ -206,12 +224,18 @@ function handleClick(i, j) {
                 colColor={colColor}
                 rowColor={rowColor}
                 onClick={(i, j) => handleClick(i, j)}
+                gridDisabled={gridDisabled}
+                className={`board ${isActive4 ? 'active' : ''}`}
               />
               <div className="button-container">
                 <div className="buttons">             
                   <button //Button X
                     className={`button ${activeButton === 'button1' ? 'active' : ''}`} 
-                    onClick={() => handleButtonClick('button1')}
+                    onClick={() => {
+                      handleButtonClick('button1');
+                      //setIsActive1(!isActive1);
+                    }
+                    }
                     style={{ width: '50px', height: '50px' }}
                   >
                     <img 
@@ -222,7 +246,11 @@ function handleClick(i, j) {
                   </button>
                   <button //Button # 
                     className={`button ${activeButton === 'button2' ? 'active' : ''}`} 
-                    onClick={() => handleButtonClick('button2')}
+                    onClick={() => {
+                      handleButtonClick('button2');
+                      //setIsActive2(!isActive2);
+                    }
+                    }
                     style={{ width: '50px', height: '50px' }}
                   >
                     <img 
@@ -235,7 +263,7 @@ function handleClick(i, j) {
               <circleButton 
               className={`button ${isActive3 ? 'active' : ''}`}
               onClick={() => {
-                setIsActive3(!isActive3);
+                //setIsActive3(!isActive3);
                 handleButtonClick('button3');
               }
               }

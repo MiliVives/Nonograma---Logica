@@ -77,6 +77,10 @@ video {
   display: grid;
 }
 
+.board.active {
+  pointer-events: none;
+}
+
 .horizontal {
   display: flex;
 }
@@ -167,6 +171,19 @@ video {
   transition: background-color 0.3s ease;
 }
 
+.buttons button.disabled {
+  background-color: transparent; /* No background color when disabled */
+}
+
+.buttons button:hover:not(.disabled) {
+  background-color: #d7ce57df; 
+}
+
+.buttons button:focus:not(.disabled) {
+  outline: none; 
+  background-color: #d7ce57df;
+}
+
 .buttons circleButton {
   margin: 20px; 
   margin-left: 150px;
@@ -177,6 +194,19 @@ video {
   font-weight: bold;
   font-size: 25px;
   transition: background-color 0.3s ease;
+}
+
+.buttons circleButton.disabled {
+  background-color: transparent; /* No background color when disabled */
+}
+
+.buttons circleButton:hover:not(.disabled) {
+  background-color: #d7ce57df; 
+}
+
+.buttons circleButton:focus:not(.disabled) {
+  outline: none; 
+  background-color: #d7ce57df;
 }
 
 .buttons buttonIdea {
