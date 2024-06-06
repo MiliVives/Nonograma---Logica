@@ -222,6 +222,43 @@ function handleClick(i, j) {
             <img src={gameWonVideo} alt="You won!" /> // Muestra la imagen cuando el juego termina
           ) : (    
             <> 
+              <div className="button-container">
+                <div className="buttons">             
+                  {/* Button Solucionador de celda */}
+                  <circleButton 
+                  className={`button ${isActive3 ? 'active' : ''}`}
+                  onClick={() => {
+                    setActiveButton('');
+                    if(!isActive4)
+                      setIsActive3(!isActive3);
+                    handleButtonClick('button3');
+                  }
+                  }
+                    style={{ width: '50px', height: '50px' }}
+                  >
+                    <img 
+                      src={button3Image} 
+                      alt="Descripción de la imagen" 
+                      style={{ height: '100%' }}
+                    />
+                  </circleButton>
+                  <circleButton
+                    className={`buttonIdea ${isActive4 ? 'active' : ''}`}
+                    onClick={() => {
+                      setActiveButton('');
+                      setIsActive4(!isActive4);
+                      handleButtonClick('button4'); 
+                    }}
+                    style={{ width: '50px', height: '50px' }}
+                  >
+                    <img 
+                      src={button4Image} 
+                      alt="Descripción de la imagen" 
+                      style={{ height: '100%' }}
+                    />
+                  </circleButton>
+              </div>
+          </div>
               <Board
                 grid={grid}
                 rowsClues={rowsClues}
@@ -264,39 +301,6 @@ function handleClick(i, j) {
                   style={{ height: '100%' }}
                 />
               </button>
-              {/* Button Solucionador de celda */}
-              <circleButton 
-              className={`button ${isActive3 ? 'active' : ''}`}
-              onClick={() => {
-                setActiveButton('');
-                if(!isActive4)
-                  setIsActive3(!isActive3);
-                handleButtonClick('button3');
-              }
-              }
-                style={{ width: '50px', height: '50px' }}
-              >
-                <img 
-                  src={button3Image} 
-                  alt="Descripción de la imagen" 
-                  style={{ height: '100%' }}
-                />
-              </circleButton>
-              <circleButton
-                className={`buttonIdea ${isActive4 ? 'active' : ''}`}
-                onClick={() => {
-                  setActiveButton('');
-                  setIsActive4(!isActive4);
-                  handleButtonClick('button4'); 
-                }}
-                style={{ width: '50px', height: '50px' }}
-              >
-                <img 
-                  src={button4Image} 
-                  alt="Descripción de la imagen" 
-                  style={{ height: '100%' }}
-                />
-              </circleButton>
             </div>
           </div>
         </>
