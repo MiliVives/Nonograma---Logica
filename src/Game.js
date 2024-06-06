@@ -33,7 +33,7 @@ function Game() {
   const [button4Image, setButton4Image] = useState(botonSO); 
   const [isActive4, setIsActive4] = useState(false);
   const [isActive3, setIsActive3] = useState(false);
-  const [isActive2, setIsActive2] = useState(false);
+  const [isActive2, setIsActive2] = useState(true);
   const [isActive1, setIsActive1] = useState(false);
   const [originalGrid, setOriginalGrid] = useState(null);
   const [buttonsDisabled, setButtonsDisabled] = useState(false); 
@@ -115,7 +115,11 @@ function handleClick(i, j) {
         setColColor(colColorAux);
         setSolvedBool(false);
         handleButtonClick(buttonHistorial);
-        setActiveButton(previousActiveButton);
+        console.log("La operacion previa es:");//si con 3 o 4 hago handleclick, no deberua hacer activebutton el param sino el prev
+        console.log(previousActiveButton);
+        if(isActive1 || isActive2)
+          setActiveButton(activeButton); 
+        else setActiveButton(previousActiveButton); 
         setButton3Image(botonZ);
         setButton4Image(botonSO);
       }
@@ -141,6 +145,8 @@ function handleClick(i, j) {
         setPreviousActiveButton(activeButton); // Guardar el botón activo actual
         setSolvedBool(true);
         setButton3Image(botonZO);
+        setIsActive1(false);
+        setIsActive2(false);
         }
         else{
           setActiveButton(previousActiveButton); // Restaurar el botón activo
@@ -164,8 +170,8 @@ function handleClick(i, j) {
     setOriginalGrid(grid);
     setGrid(solvedGrid); // Muestra la grilla resuelta
     setGridDisabled(true); // Disable grid interactions
-    setIsActive1(isActive1);
-    setIsActive2(isActive2);
+    setIsActive1(false);
+    setIsActive2(false);
     if(isActive3)
     setIsActive3(!isActive3);
   }else{
@@ -173,7 +179,7 @@ function handleClick(i, j) {
     setGrid(originalGrid); // Restaurar la grilla original
     setGridDisabled(false); // Set grid to enabled state
     setIsActive4(!isActive4);
-    setIsActive1(!isActive1);
+    setIsActive1(!isActive1);//false false
     setIsActive2(!isActive2);
     setActiveButton(previousActiveButton); // Restaurar el botón activo
   }
@@ -183,6 +189,10 @@ function handleClick(i, j) {
       if(!isActive4){
         content = buttonId === 'button1' ? 'X' : '#';
         setActiveButton(buttonId);
+        setPreviousActiveButton(activeButton);
+        if(buttonId === 'button1')
+          setIsActive1(true);
+        else setIsActive2(true);
         buttonHistorial = buttonId;
       }
     }
