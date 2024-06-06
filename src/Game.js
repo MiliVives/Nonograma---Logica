@@ -23,7 +23,7 @@ function Game() {
   const [grid, setGrid] = useState(null);
   const [rowsClues, setRowsClues] = useState([]);
   const [colsClues, setColsClues] = useState([]);
-  const [activeButton, setActiveButton] = useState('button1'); 
+  const [activeButton, setActiveButton] = useState('button2'); 
   const [rowColor, setRowColor] = useState([]);
   const [colColor, setColColor] = useState([]);
   const [solvedGrid, setSolvedGrid] = useState(false);
@@ -38,6 +38,7 @@ function Game() {
   const [originalGrid, setOriginalGrid] = useState(null);
   const [buttonsDisabled, setButtonsDisabled] = useState(false); 
   const [gridDisabled, setGridDisabled] = useState(false);
+  const [previousActiveButton, setPreviousActiveButton] = useState('button2');
 
   useEffect(() => {
     PengineClient.init(handleServerReady);
@@ -114,6 +115,7 @@ function handleClick(i, j) {
         setColColor(colColorAux);
         setSolvedBool(false);
         handleButtonClick(buttonHistorial);
+        setActiveButton(previousActiveButton);
         setButton3Image(botonZ);
         setButton4Image(botonSO);
       }
@@ -135,13 +137,13 @@ function handleClick(i, j) {
   // Si el boton SolveCelda se clickea, soluciona la celda.
     if (buttonId === 'button3') {
       if(!isActive4){
-        console.log("Entre a 4");
         if(!isActive3){
-          console.log("Entre a 3");
+        setPreviousActiveButton(activeButton); // Guardar el botón activo actual
         setSolvedBool(true);
         setButton3Image(botonZO);
         }
         else{
+          setActiveButton(previousActiveButton); // Restaurar el botón activo
           setSolvedBool(false);
           setButton3Image(botonZ);
         }
@@ -157,7 +159,7 @@ function handleClick(i, j) {
 
   if (buttonId === 'button4') {
   if(!isActive4){
-    console.log("se presiono el boton 4 cuando lampara estaba Desactivada");
+    setPreviousActiveButton(activeButton); // Guardar el botón activo actual
     setButton4Image(botonS);
     setOriginalGrid(grid);
     setGrid(solvedGrid); // Muestra la grilla resuelta
@@ -167,13 +169,13 @@ function handleClick(i, j) {
     if(isActive3)
     setIsActive3(!isActive3);
   }else{
-    console.log("se presiono el boton 4 cuando lampara estaba Activada");
     setButton4Image(botonSO);
     setGrid(originalGrid); // Restaurar la grilla original
     setGridDisabled(false); // Set grid to enabled state
     setIsActive4(!isActive4);
     setIsActive1(!isActive1);
     setIsActive2(!isActive2);
+    setActiveButton(previousActiveButton); // Restaurar el botón activo
   }
 }
   // Si se clickea X o #, se setea el contenido que corresponde
