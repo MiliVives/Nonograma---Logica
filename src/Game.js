@@ -164,7 +164,8 @@ function handleClick(i, j) {
     setGridDisabled(true); // Disable grid interactions
     setIsActive1(isActive1);
     setIsActive2(isActive2);
-    setIsActive3(isActive3);
+    if(isActive3)
+    setIsActive3(!isActive3);
   }else{
     console.log("se presiono el boton 4 cuando lampara estaba Activada");
     setButton4Image(botonSO);
