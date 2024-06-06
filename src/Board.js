@@ -5,13 +5,15 @@ import Clue from './Clue';
 function Board({ grid, rowsClues, colsClues,colColor,rowColor,onClick, gridDisabled}) {
     const numOfRows = grid.length;
     const numOfCols = grid[0].length;
+    const translucentStyle = gridDisabled ? { opacity: 0.5} : {};
+
     return (
         <div className="vertical">
             <div
                 className="colClues"
                 style={{
                     gridTemplateRows: '70px',
-                    gridTemplateColumns: `71px repeat(${numOfCols}, 70px)`
+                    gridTemplateColumns: `71px repeat(${numOfCols}, 70px)`,
                     /*
                        60px  40px 40px 40px 40px 40px 40px 40px   (gridTemplateColumns)
                       ______ ____ ____ ____ ____ ____ ____ ____
@@ -19,6 +21,7 @@ function Board({ grid, rowsClues, colsClues,colColor,rowColor,onClick, gridDisab
                      |      |    |    |    |    |    |    |    |  (gridTemplateRows)
                       ------ ---- ---- ---- ---- ---- ---- ---- 
                      */
+                      ...translucentStyle
                 }}
             >
                 <div>{/* top-left corner square */}</div>
@@ -31,7 +34,8 @@ function Board({ grid, rowsClues, colsClues,colColor,rowColor,onClick, gridDisab
                     className="rowClues"
                     style={{
                         gridTemplateRows: `repeat(${numOfRows}, 70px)`,
-                        gridTemplateColumns: '70px'                       
+                        gridTemplateColumns: '70px',       
+                        ...translucentStyle                
                     }}
                 >
                     {rowsClues.map((clue, i) =>
