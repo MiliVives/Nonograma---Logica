@@ -135,7 +135,9 @@ function handleClick(i, j) {
   // Si el boton SolveCelda se clickea, soluciona la celda.
     if (buttonId === 'button3') {
       if(!isActive4){
+        console.log("Entre a 4");
         if(!isActive3){
+          console.log("Entre a 3");
         setSolvedBool(true);
         setButton3Image(botonZO);
         }
@@ -263,7 +265,7 @@ function handleClick(i, j) {
               <circleButton 
               className={`button ${isActive3 ? 'active' : ''}`}
               onClick={() => {
-                //setIsActive3(!isActive3);
+                setIsActive3(!isActive3);
                 handleButtonClick('button3');
               }
               }
