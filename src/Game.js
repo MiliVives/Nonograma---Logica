@@ -149,6 +149,7 @@ function handleClick(i, j) {
   }
   else{
   if(solvedBool){
+    console.log("asdasd");
     setIsActive3(!isActive3);
     setSolvedBool(false);
     setButton3Image(botonZ);
@@ -156,6 +157,7 @@ function handleClick(i, j) {
 
   if (buttonId === 'button4') {
   if(!isActive4){
+    console.log("se presiono el boton 4 cuando lampara estaba Desactivada");
     setButton4Image(botonS);
     setOriginalGrid(grid);
     setGrid(solvedGrid); // Muestra la grilla resuelta
@@ -164,13 +166,13 @@ function handleClick(i, j) {
     setIsActive2(isActive2);
     setIsActive3(isActive3);
   }else{
+    console.log("se presiono el boton 4 cuando lampara estaba Activada");
     setButton4Image(botonSO);
     setGrid(originalGrid); // Restaurar la grilla original
     setGridDisabled(false); // Set grid to enabled state
     setIsActive4(!isActive4);
     setIsActive1(!isActive1);
     setIsActive2(!isActive2);
-    setIsActive3(!isActive3);
   }
 }
   // Si se clickea X o #, se setea el contenido que corresponde
@@ -265,7 +267,9 @@ function handleClick(i, j) {
               <circleButton 
               className={`button ${isActive3 ? 'active' : ''}`}
               onClick={() => {
-                setIsActive3(!isActive3);
+                setActiveButton('');
+                if(!isActive4)
+                  setIsActive3(!isActive3);
                 handleButtonClick('button3');
               }
               }
@@ -280,6 +284,7 @@ function handleClick(i, j) {
               <circleButton
                 className={`buttonIdea ${isActive4 ? 'active' : ''}`}
                 onClick={() => {
+                  setActiveButton('');
                   setIsActive4(!isActive4);
                   handleButtonClick('button4'); 
                 }}
