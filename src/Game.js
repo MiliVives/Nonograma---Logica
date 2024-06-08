@@ -76,8 +76,7 @@ function Game() {
             const squaresS = JSON.stringify(grid).replaceAll('"_"', "_"); 
             const filaS = JSON.stringify(rowsClues);
             const colS = JSON.stringify(colsClues);
-            queryS = 'checkAll(' + squaresS + ', ' + filaS + ', FilaSatL, '
-                + rowsClues.length + ', ' + colS + ', ColSatL, ' + colsClues.length + ')';
+            queryS = 'checkAll(' + squaresS + ', ' + filaS + ', FilaSatL, ' + colS + ', ColSatL)';
 
             pengine.query(queryS, (success, response) => {
                 if (success) {

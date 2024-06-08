@@ -104,16 +104,17 @@ convertir([X | Xs], Ys, Leidos):-
 	convertir(Xs, Ys, LeidosAux).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% checkAll/7
+% checkAll/5
 % Checkea todas las filas y columnas de la grilla, siendo FilaSatL la lista de resultados de checkear las filas, y ColSatL de checkear las columnas
 
-checkAll(Grilla, PistasFilas, FilaSatL, FilasTotales, PistasColumnas, ColSatL, ColumnasTotales) :-
+checkAll(Grilla, PistasFilas, FilaSatL, PistasColumnas, ColSatL) :-
+    length(Grilla, FilasTotales),
+    length(PistasColumnas, ColumnasTotales),
     checkRows(Grilla, PistasFilas, FilaSatL, 0, FilasTotales),
     checkColumns(Grilla, PistasColumnas, ColSatL, 0, ColumnasTotales).
 
 % checkRows/5
 % Chequea todas las filas de las grillas.
-
 checkRows(_, _, [], FilasTotales, FilasTotales).
 checkRows(Grilla, [PistasFila|RestoFilas], [SatFila|FilaSatL], IndiceF, FilasTotales) :-
     nth0(IndiceF, Grilla, Fila),
@@ -123,7 +124,6 @@ checkRows(Grilla, [PistasFila|RestoFilas], [SatFila|FilaSatL], IndiceF, FilasTot
 
 % checkColumns/5
 % Chequea todas las columnas de las grillas.
-
 checkColumns(_, _, [], ColumnasTotales, ColumnasTotales).
 checkColumns(Grilla, [PistasColumna|RestoColumnas], [SatColumna|ColSatL], IndiceC, ColumnasTotales) :-
     getCol(Grilla, IndiceC, Columna),
@@ -144,7 +144,7 @@ solver(RowSpec, ColSpec, InitialGrid, Grid) :-
     transpose(Grid, GridT),
     transpose(InitialGrid, InitialGridT),
     rows(ColSpec, InitialGridT, GridT).
-
+%spec = clues
 rows([], [], []).
 rows([C|Cs], [IR|IRs], [R|Rs]) :-
     row(C, IR, R),
@@ -176,8 +176,8 @@ arcs([K|Ks], Arcs, CurState, Final) :-
     ).
 
 make_grid(Grid, InitialGrid, X, Y, Vars) :-
-    length(Grid, X),
-    length(InitialGrid, X),
+    length(Grid, X), %Inicializa Grid con X variables
+    length(InitialGrid, X),%verifica que tenga X variables
     make_rows(Grid, InitialGrid, Y, Vars).
 
 make_rows([], [], _, []).
