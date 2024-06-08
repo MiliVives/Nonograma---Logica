@@ -144,12 +144,17 @@ solver(RowSpec, ColSpec, InitialGrid, Grid) :-
     transpose(Grid, GridT),
     transpose(InitialGrid, InitialGridT),
     rows(ColSpec, InitialGridT, GridT).
-%spec = clues
+
+% Parte de la resolución de la grilla usando autómatas
+% Recorre cada fila de grilla
 rows([], [], []).
 rows([C|Cs], [IR|IRs], [R|Rs]) :-
     row(C, IR, R),
     rows(Cs, IRs, Rs).
 
+% A partir de una fila dada, verifica que la cantidad de celdas pintadas coincida con las restricciones.
+% Utiliza el autómata para generar las configuraciones de la fila.
+% Aplica el estado inicial a la fila utilizando el apply_initial.
 row(Ks, InitialRow, Row) :-
     sum(Ks,  #=, Ones),
     sum(Row, #=, Ones),
@@ -158,11 +163,14 @@ row(Ks, InitialRow, Row) :-
     automaton(RowZ, [source(start), sink(Final)], [arc(start,0,start) | Arcs]),
     apply_initial(InitialRow, Row).
 
+% Compara cada elemento de una fila de la grilla inicial y evalua si se debe aplicar alguna restricción más.
 apply_initial([], []).
 apply_initial([I|Is], [R|Rs]) :-
     (I == '#' -> R #= 1 ; I == 'X' -> R #= 0 ; true),
     apply_initial(Is, Rs).
 
+% Parte de la resolución de la grilla usando autómatas
+% Genera los arcos del autómata, los cuales verifican las restricciones de una fila dada.
 arcs([], [], Final, Final).
 arcs([K|Ks], Arcs, CurState, Final) :-
     gensym(state, NextState),
@@ -175,11 +183,13 @@ arcs([K|Ks], Arcs, CurState, Final) :-
         arcs([K1|Ks], Rest, NextState, Final)
     ).
 
+% Arma la grilla que resuelve el juego
 make_grid(Grid, InitialGrid, X, Y, Vars) :-
-    length(Grid, X), %Inicializa Grid con X variables
-    length(InitialGrid, X),%verifica que tenga X variables
+    length(Grid, X), % Inicializa Grid con X variables
+    length(InitialGrid, X),% Verifica que tenga X variables
     make_rows(Grid, InitialGrid, Y, Vars).
 
+% Arma las filas de la grilla que resuelve el juego
 make_rows([], [], _, []).
 make_rows([R|Rs], [IR|IRs], Len, Vars) :-
     length(R, Len),
@@ -192,6 +202,7 @@ count([], 0).
 count([_|[]], N) :- N is 1.
 count([_|T], N) :- count(T, M), N is M + 1.
 
+% Consulta para resolver el nonograma desde game
 go(Grid) :-
     init(Rows, Cols, InitialGrid),
     count(Rows, X),
